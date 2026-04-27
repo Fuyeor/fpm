@@ -1,0 +1,13 @@
+{
+  "extends": "@fuyeor/tsconfig/base.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false
+  },
+  "include": ["vite.config.ts", "vite-env.d.ts", "src/**/*.ts", "src/**/*.d.ts"]
+}

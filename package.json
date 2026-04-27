@@ -1,0 +1,26 @@
+{
+  "name": "fpm-workspace",
+  "private": true,
+  "license": "GPL-3.0-or-later",
+  "author": "Fuyeor <https://www.fuyeor.com/@Fuyeor>",
+  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319",
+  "scripts": {
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "test:e2e": "vitest run --dir test/e2e --exclude test/unit",
+    "locale": "packages\\vendor\\fuyeor\\target\\debug\\locale-cli.exe"
+  },
+  "devDependencies": {
+    "@types/supertest": "^6.0.3",
+    "@vitest/coverage-v8": "^4.1.0",
+    "@vitest/ui": "^4.1.0",
+    "jsdom": "^29.0.1",
+    "supertest": "^7.2.2",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
+  }
+}
