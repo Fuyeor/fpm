@@ -16,6 +16,7 @@
     "@fuyeor/commons": "0.1.2",
     "@fuyeor/config": "0.1.0",
     "@fuyeor/locale": "0.1.0",
+    "@fuyeor/router": "workspace:*",
     "@fuyeor/query": "0.1.0",
     "@lit-labs/signals": "^0.2.0",
     "lit": "^3.3.2",

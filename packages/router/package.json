@@ -1,0 +1,25 @@
+{
+  "name": "@fuyeor/router",
+  "version": "0.1.0",
+  "license": "GPL-3.0-or-later",
+  "author": "Fuyeor <https://www.fuyeor.com/@Fuyeor>",
+  "type": "module",
+  "sideEffects": false,
+  "scripts": {
+    "test": "vitest run"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "peerDependencies": {
+    "@lit-labs/signals": "*",
+    "lit": "*",
+    "signal-polyfill": "*"
+  },
+  "devDependencies": {
+    "@fuyeor/tsconfig": "0.1.0",
+    "@lit-labs/signals": "^0.2.0",
+    "lit": "^3.3.2",
+    "signal-polyfill": "^0.2.2"
+  }
+}

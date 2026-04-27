@@ -1,6 +1,7 @@
 // @/main.ts
 // pnpm -F @webroamer/registry-front-end dev
 import './App';
+import './router';
 
 window.document.body.innerHTML = '';
 

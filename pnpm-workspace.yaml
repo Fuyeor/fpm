@@ -2,3 +2,4 @@
 packages:
   - "apps/registry/front-end"
   - "packages/interactify"
+  - "packages/router"
