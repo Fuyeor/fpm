@@ -1,0 +1,4 @@
+# /pnpm-workspace.yaml
+packages:
+  - "apps/registry/front-end"
+  - "packages/interactify"
