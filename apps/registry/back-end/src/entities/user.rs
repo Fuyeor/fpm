@@ -22,6 +22,8 @@ pub enum Relation {
     OrganizationMember,
     #[sea_orm(has_many = "super::token::Entity")]
     Token,
+    #[sea_orm(has_many = "super::user_refresh_token::Entity")]
+    UserRefreshToken,
 }
 
 impl Related<super::organization_member::Entity> for Entity {
@@ -33,6 +35,12 @@ impl Related<super::organization_member::Entity> for Entity {
 impl Related<super::token::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::Token.def()
+    }
+}
+
+impl Related<super::user_refresh_token::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::UserRefreshToken.def()
     }
 }
 

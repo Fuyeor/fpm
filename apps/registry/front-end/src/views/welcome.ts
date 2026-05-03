@@ -3,8 +3,8 @@ import { LitElement, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
 @customElement('fpm-welcome')
-export class FpmLandingPage extends LitElement {
+export class FpmWelcome extends LitElement {
   render() {
-    return html` <a href="/signin" class="active">Signin</a>`;
+    return html`欢迎来到首页`;
   }
 }

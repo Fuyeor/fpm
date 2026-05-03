@@ -14,7 +14,7 @@ pub struct WwwTokenRequest<'a> {
 
 /// User details returned from IdP.
 #[derive(Deserialize, Debug)]
-#[serde(rename_all = "camelCase")] // Match C# JSON naming
+#[serde(rename_all = "camelCase")]
 pub struct WwwUser {
     pub id: String,
     pub username: String,
@@ -46,9 +46,11 @@ pub async fn exchange_code(
         redirect_uri: &config.idp_redirect_uri,
     };
 
-    let url = format!("{}/oauth/token", config.idp_base_url);
-
-    let response = http_client.post(&url).json(&payload).send().await?;
+    let response = http_client
+        .post(&config.idp_base_url)
+        .json(&payload)
+        .send()
+        .await?;
 
     if response.status() != StatusCode::OK {
         // Fail fast on non-200 responses to avoid silent logic bugs

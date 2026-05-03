@@ -8,9 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "dev:sync-types": "openapi-typescript http://localhost:5590/docs/openapi.json -o ./src/shared/types/api.d.ts"
+    "test": "vitest run"
   },
   "dependencies": {
     "@fuyeor/commons": "0.1.2",

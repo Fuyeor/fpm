@@ -5,6 +5,6 @@ import './router';
 
 window.document.body.innerHTML = '';
 
-const app = window.document.createElement('registry-welcome');
+const app = window.document.createElement('fpm-root');
 
 window.document.body.appendChild(app);

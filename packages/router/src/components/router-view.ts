@@ -3,11 +3,16 @@ import { LitElement, html, css, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { SignalWatcher } from '@lit-labs/signals';
 import { router } from '../index';
+import type { RouteLocation } from '../types';
 
 @customElement('router-view')
 export class RouterView extends SignalWatcher(LitElement) {
+  protected override createRenderRoot() {
+    return this;
+  }
+
   @property({ type: Number }) depth = 0;
-  @property({ attribute: false }) layerContext?: any;
+  @property({ attribute: false }) layerContext?: RouteLocation;
 
   static styles = css`
     :host {
@@ -15,7 +20,7 @@ export class RouterView extends SignalWatcher(LitElement) {
     }
   `;
 
-  #renderComponent(route: any, level: number) {
+  #renderComponent(route: RouteLocation, level: number) {
     const match = route.matched[level];
     if (!match) return nothing;
 
@@ -29,6 +34,7 @@ export class RouterView extends SignalWatcher(LitElement) {
 
     // Create element and attach context
     const element = window.document.createElement(match.component);
+
     (element as any).__routeContext = route;
     (element as any).__routeDepth = level;
 
@@ -39,7 +45,7 @@ export class RouterView extends SignalWatcher(LitElement) {
     return element;
   }
 
-  #getProps(route: any, level: number) {
+  #getProps(route: RouteLocation, level: number) {
     const config = route.matched[level]?.props;
     if (!config) return {};
     if (config === true) return { ...route.params };

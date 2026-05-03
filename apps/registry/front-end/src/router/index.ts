@@ -4,16 +4,25 @@ import { initRouter } from '@fuyeor/router';
 export const router = initRouter({
   routes: [
     {
-      // fpm.fuyeor.com
+      // fpm.fuyeor.com/welcome
+      path: '/welcome',
+      name: 'Welcome',
+      component: 'fpm-welcome',
+      loader: () => import('../views/welcome'),
+    },
+    {
+      // fpm.fuyeor.com/
       path: '/',
-      name: 'welcome',
-      component: () => import('../views/welcome').then((m) => 'fpm-welcome'),
+      name: 'Home',
+      component: 'fpm-home',
+      loader: () => import('../views/home'),
     },
     {
       // 404
       path: '*',
-      name: 'not-found',
-      component: () => import('../views/not-found').then((m) => 'not-found'),
+      name: 'NotFound',
+      component: 'not-found',
+      loader: () => import('../views/not-found'),
     },
   ],
 });

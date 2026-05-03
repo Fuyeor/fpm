@@ -57,6 +57,7 @@ export function createMatcher(routes: RouteRecord[], urlResolver: UrlResolver) {
         {
           name: record.name,
           component: record.component!,
+          loader: record.loader,
           meta: record.meta || {},
           props: record.props,
           beforeEnter: record.beforeEnter,

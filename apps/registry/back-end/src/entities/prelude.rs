@@ -6,3 +6,4 @@ pub use super::package::Entity as Package;
 pub use super::package_version::Entity as PackageVersion;
 pub use super::token::Entity as Token;
 pub use super::user::Entity as User;
+pub use super::user_refresh_token::Entity as UserRefreshToken;

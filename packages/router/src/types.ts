@@ -12,16 +12,18 @@ export type RouteLocationRaw =
       state?: any;
     };
 
-// In Native Web Components, a component is either a tag name or a module returning a tag name
-export type RouteComponent =
-  | string
-  | (() => Promise<string | { default: string }>);
+/**
+ * Component loader follows native ESM dynamic import pattern.
+ * The import should register the custom element as a side effect.
+ */
+export type RouteComponentLoader = () => Promise<any>;
 
 export interface RouteRecord {
   path: string;
+  component?: string; // The custom element component name, e.g., 'pg-home'
+  loader?: RouteComponentLoader; // Dynamic import function
   name?: string;
   redirect?: RouteLocationRaw | ((to: RouteLocation) => RouteLocationRaw);
-  component?: RouteComponent;
   children?: RouteRecord[];
   meta?: Record<string, any>;
   props?:
@@ -33,7 +35,8 @@ export interface RouteRecord {
 
 export interface RouteMatched {
   name?: string;
-  component: string | RouteComponent; // Resolved to tag name at runtime
+  component?: string;
+  loader?: RouteComponentLoader;
   meta: Record<string, any>;
   props?: any;
   beforeEnter?: NavigationGuard | NavigationGuard[];
@@ -43,7 +46,7 @@ export interface RouteLocation {
   fullPath: string;
   path: string;
   name?: string;
-  redirect?: RouteLocationRaw | ((to: RouteLocation) => RouteLocationRaw);
+  redirect?: RouteRecord['redirect'];
   params: Record<string, string>;
   query: Record<string, string>;
   meta: Record<string, any>;
@@ -80,8 +83,8 @@ export interface WebroamerRouter {
   currentRoute: Signal.State<RouteLocation>;
   layerStack: Signal.State<RouteLocation[]>;
   push: (to: RouteLocationRaw) => Promise<void>;
-  resolve: (to: RouteLocationRaw) => RouteLocation & { href: string };
   replace: (to: RouteLocationRaw) => Promise<void>;
+  resolve: (to: RouteLocationRaw) => RouteLocation & { href: string };
   back: () => Promise<void>;
   beforeEach: (guard: NavigationGuard) => void;
   afterEach: (guard: (to: RouteLocation) => void) => void;

@@ -8,3 +8,4 @@ pub mod package;
 pub mod package_version;
 pub mod token;
 pub mod user;
+pub mod user_refresh_token;

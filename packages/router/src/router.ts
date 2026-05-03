@@ -11,24 +11,15 @@ import type {
   RouteLocationRaw,
 } from './types';
 
-// Preload web components and resolve to tag names
+/**
+ * Ensures all components in the matched route are loaded before navigation
+ */
 async function loadComponents(matched: RouteMatched[]) {
-  // Parallel loading for all matched route segments
   await window.Promise.all(
     matched.map(async (match) => {
-      if (typeof match.component === 'function') {
-        const result = await match.component();
-        // If it returns a module, we assume it's a side-effect import or returns tag name
-        // Pattern: () => import('./view.js').then(m => m.tagName)
-        match.component =
-          typeof result === 'string' ? result : result?.default || result;
-
-        // Fail-fast: If we still don't have a tag name, the developer forgot to return it
-        if (typeof match.component !== 'string') {
-          window.console.warn(
-            `[Router] Lazy component for "${match.name}" did not return a tag name string.`,
-          );
-        }
+      if (match.loader) {
+        // Native ESM dynamic import for lazy loading
+        await match.loader();
       }
     }),
   );

@@ -1,5 +1,6 @@
 // @webroamer/registry-front-end/vite.config.js
 import { defineConfig, loadEnv } from 'vite';
+import { resolve } from 'node:path';
 
 export default defineConfig(({ mode }) => {
   // loading environment variables
@@ -7,6 +8,14 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [],
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, './src'),
+      },
+    },
+    optimizeDeps: {
+      exclude: ['@fuyeor/commons'],
+    },
     server: {
       host: '0.0.0.0',
       port: 6010,
