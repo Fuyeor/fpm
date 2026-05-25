@@ -1,0 +1,13 @@
+<!-- @/layout/Right.vue -->
+<template>
+  <div class="right-sidebar">
+    <!-- 右侧边栏传送区-->
+    <div id="sidebar-wrapper"></div>
+
+    <RightFooter />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { SearchBar, RightFooter } from '@fuyeor/interactify';
+</script>

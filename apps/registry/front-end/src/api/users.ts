@@ -1,4 +1,4 @@
-// src/api/user.ts
+// src/api/users.ts
 import apiClient from './index';
 import type { EmbeddedUser } from '@/types/user';
 

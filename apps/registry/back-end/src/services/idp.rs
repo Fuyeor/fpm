@@ -26,10 +26,15 @@ pub struct WwwUser {
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct WwwTokenResponse {
-    pub access_token: String,
-    #[warn(dead_code)]
-    pub refresh_token: String,
+    pub tokens: WwwTokens,
     pub user: WwwUser,
+}
+
+#[derive(Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct WwwTokens {
+    pub access_token: String,
+    pub refresh_token: String,
 }
 
 /// Exchanges an authorization code for IdP tokens.
@@ -46,18 +51,46 @@ pub async fn exchange_code(
         redirect_uri: &config.idp_redirect_uri,
     };
 
-    let response = http_client
-        .post(&config.idp_base_url)
-        .json(&payload)
-        .send()
-        .await?;
+    let token_url = format!("{}/oauth/token", config.idp_base_url);
 
-    if response.status() != StatusCode::OK {
-        // Fail fast on non-200 responses to avoid silent logic bugs
-        let error_text = response.text().await?;
-        return Err(format!("Auth failed. IdP returned: {}", error_text).into());
+    /*
+        println!(
+            "\n[IdP Debug] 🚀 发起 OAuth 令牌交换...\n[IdP Debug] 🔗 请求 URL: {}\n[IdP Debug] 📝 回调地址: {}\n",
+            token_url,
+            config.idp_redirect_uri
+        );
+    */
+
+    let response = http_client.post(&token_url).json(&payload).send().await?;
+
+    let status = response.status();
+    let body_text = response.text().await?;
+
+    if status != StatusCode::OK {
+        /*
+        println!(
+            "\n[IdP Debug] ❌ 请求失败! 状态码: {}\n[IdP Debug] 🔗 失败的 URL: {}\n[IdP Debug] 📥 主站原始报错: {}\n",
+            status,
+            token_url,
+            body_text
+        );
+        */
+        return Err(format!("Auth failed. IdP returned: {}", body_text).into());
     }
 
-    let result = response.json::<WwwTokenResponse>().await?;
+    let result: WwwTokenResponse = match serde_json::from_str(&body_text) {
+        Ok(res) => res,
+        Err(e) => {
+            /*
+            println!(
+                "\n[IdP Debug] ❌ JSON 解析失败!\n[IdP Debug] 🔍 错误原因: {}\n[IdP Debug] 📥 主站返回的原始 JSON 数据: {}\n",
+                e,
+                body_text
+            );
+            */
+            return Err(format!("JSON decode failed: {}", e).into());
+        }
+    };
+
     Ok(result)
 }

@@ -25,5 +25,7 @@ hex = "0.4.3"
 rand = "0.10.1"
 aws-config = "1.8.16"
 aws-sdk-s3 = "1.131.0"
-jsonwebtoken = "10.3.0"
+jsonwebtoken = { version = "10.3.0", default-features = false, features = [
+  "rust_crypto",
+] }
 time = "0.3.47"

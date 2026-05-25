@@ -34,14 +34,22 @@ pub async fn signin(
 
     let jar = CookieJar::new()
         .add(make_cookie(
-            "accessToken",
+            "access_token",
             res.access_token.clone(),
             time::Duration::minutes(20),
+            true, // HttpOnly = true (Secure)
         ))
         .add(make_cookie(
-            "refreshToken",
+            "refresh_token",
             res.refresh_token.clone(),
             time::Duration::days(7),
+            true, // HttpOnly = true (Secure)
+        ))
+        .add(make_cookie(
+            "session_payload",
+            "true".to_string(),
+            time::Duration::days(7),
+            false, // HttpOnly = false
         ));
 
     Ok((jar, Json(res)))
@@ -62,7 +70,7 @@ pub async fn refresh(
     ConnectInfo(addr): ConnectInfo<std::net::SocketAddr>,
 ) -> Result<(CookieJar, Json<SigninResponse>), (StatusCode, String)> {
     let refresh_token = jar
-        .get("refreshToken")
+        .get("refresh_token")
         .map(|c| c.value().to_string())
         .ok_or((
             StatusCode::UNAUTHORIZED,
@@ -81,14 +89,22 @@ pub async fn refresh(
 
     let updated_jar = jar
         .add(make_cookie(
-            "accessToken",
+            "access_token",
             res.access_token.clone(),
             time::Duration::minutes(20),
+            true,
         ))
         .add(make_cookie(
-            "refreshToken",
+            "refresh_token",
             res.refresh_token.clone(),
             time::Duration::days(7),
+            true,
+        ))
+        .add(make_cookie(
+            "session_payload",
+            "true".to_string(),
+            time::Duration::days(7),
+            false, // HttpOnly = false
         ));
 
     Ok((updated_jar, Json(res)))
@@ -113,9 +129,14 @@ pub async fn create_token(
         .map(Json)
 }
 
-fn make_cookie(name: &'static str, value: String, age: time::Duration) -> Cookie<'static> {
+fn make_cookie(
+    name: &'static str,
+    value: String,
+    age: time::Duration,
+    http_only: bool,
+) -> Cookie<'static> {
     Cookie::build((name, value))
-        .http_only(true)
+        .http_only(http_only)
         .secure(true)
         .same_site(SameSite::Lax)
         .path("/")

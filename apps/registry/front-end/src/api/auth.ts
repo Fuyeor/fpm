@@ -1,8 +1,10 @@
 // src/api/auth.ts
 import apiClient from './index';
-import type { paths } from '@/types/api';
-import type { ExtractRequestBody, ExtractResponse } from '@/types/api-helpers';
-
+import type {
+  SigninRequest,
+  SigninResponse,
+  CreateTokenRequest,
+} from '@/types/auth';
 
 export const signin = (body: SigninRequest) => {
   return apiClient.post<SigninResponse>('/auth/signin', body);
@@ -18,7 +20,6 @@ export const refresh = () => {
 /**
  * Create a CLI token
  */
-export type CreateTokenRequest = ExtractRequestBody<paths['/auth/token']['post']>;
 export const createToken = (body: CreateTokenRequest) => {
   return apiClient.post('/auth/token', body);
 };
