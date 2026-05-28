@@ -30,7 +30,6 @@ import {
   ToastProvider,
 } from '@fuyeor/interactify';
 import { useAsyncComponents } from '@/composables/loader/useAsyncComponents';
-import { useConfigStore } from '@/stores/config';
 
 const { isMobile } = useMobileDetection();
 
@@ -45,5 +44,8 @@ const shouldShowBottomSidebar = computed(() => {
 // 启用字体加载
 useFontLoader();
 // 启动全局标题管理器
-useHeadManager(useConfigStore());
+useHeadManager({
+  nameKey: 'site.name',
+  titleKey: 'site.title',
+});
 </script>

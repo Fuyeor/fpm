@@ -1,8 +1,6 @@
 // .vscode/extensions.json
 {
   "recommendations": [
-    // Lit components support
-    "runem.lit-plugin",
     // Prettier: format JSON, TS, JS
     "esbenp.prettier-vscode",
     // Rust: language server & analyzer

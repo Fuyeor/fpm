@@ -80,6 +80,7 @@ async fn main() {
         .route("/packages/acquire", post(pkg_ctrl::acquire_upload))
         .route("/packages/commit", post(pkg_ctrl::commit_upload))
         // User Routes
+        .route("/users/:username", get(user_ctrl::get_user_profile))
         .route("/users/me", get(user_ctrl::get_me))
         .merge(SwaggerUi::new("/docs").url("/docs/openapi.json", openapi))
         .with_state(state);

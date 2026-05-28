@@ -1,6 +1,7 @@
 # /pnpm-workspace.yaml
 packages:
   - "apps/registry/front-end"
+  - "packages/prisma"
   - "../monorepo/packages/interactify"
   - "../monorepo/packages/vue-router"
   - "../monorepo/packages/vue-query"

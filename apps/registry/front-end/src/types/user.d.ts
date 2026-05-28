@@ -11,6 +11,17 @@ export interface EmbeddedUser {
   avatar?: string;
 }
 
+export interface User {
+  /** UUID v7 string */
+  id: string;
+  /** Case-insensitive unique username */
+  username: string;
+  /** Display name */
+  nickname: string;
+  /** Avatar URL if set */
+  avatar?: string;
+}
+
 /**
  * Standard Signin Response (Web & CLI)
  * Contains dual tokens and user profile

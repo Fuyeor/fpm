@@ -12,7 +12,7 @@
     "test:cov": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "test:e2e": "vitest run --dir test/e2e --exclude test/unit",
-    "locale": "packages\\vendor\\fuyeor\\target\\debug\\locale-cli.exe"
+    "locale": "~/projects/monorepo/target/debug/locale-cli"
   },
   "devDependencies": {
     "@types/supertest": "^6.0.3",

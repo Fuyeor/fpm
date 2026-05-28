@@ -20,8 +20,7 @@
 
 ```bash
 git clone https://github.com/Fuyeor/fpm
-cd fpm
-pnpm i
+cd fpm && pnpm i
 ```
 
 **Run Front-end**
@@ -33,6 +32,36 @@ pnpm -F @fuyeor/fpm-front-end dev
 **Run Back-end**
 
 ```bash
-cd apps/registry/back-end
-cargo run
+cd apps/registry/back-end && cargo run
+```
+
+### Database Migration
+
+> We utilize Prisma for database migrations because its schema syntax provides a highly readable, declarative view of the database state, serving as the Single Source of Truth for the entire project.
+
+**1. Create a Migration**
+
+First, modify the [schema.prisma](./packages/prisma/schema.prisma) file to reflect your changes, then run:
+
+```bash
+# Generate a new migration file without applying it
+pnpm -F @fuyeor/prisma-registry prisma migrate dev --create-only --name [migration_name]
+```
+
+**2. Review and Deploy**
+
+Carefully review the generated SQL file in the `migrations` directory. Once verified, apply the changes to the database:
+
+```bash
+# Apply migrations to the database
+pnpm -F @fuyeor/prisma-registry prisma migrate deploy
+```
+
+**3. Synchronize Backend (Sea-ORM)**
+
+After the database schema is updated, synchronize the Rust entities for the backend:
+
+```bash
+# Generate Rust entities for Sea-ORM
+pnpm -F @fuyeor/prisma-registry generate:rust
 ```

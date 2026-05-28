@@ -15,17 +15,6 @@ const { start, done } = useTransitionBar();
 
 const appRoutes: Array<RouteRecord> = [
   {
-    // fpm.fuyeor.com/welcome
-    path: 'welcome',
-    name: 'Welcome',
-    component: () => import('@/views/Welcome.vue'),
-    props: true,
-    meta: {
-      public: true,
-      overrideTitle: ['site.name', ':', 'site.title'],
-    },
-  },
-  {
     // fpm.fuyeor.com/auth/callback
     path: 'auth/callback',
     name: 'AuthCallback',
@@ -37,16 +26,17 @@ const appRoutes: Array<RouteRecord> = [
   },
   {
     // fpm.fuyeor.com/
-    path: '{/}?',
+    path: '{/:tab}?',
     name: 'Home',
     component: () => import('@/views/Home.vue'),
     meta: {
-      titleKey: 'signin',
+      public: true,
+      overrideTitle: ['site.name', ':', 'site.title'],
     },
   },
   {
     // fpm.fuyeor.com/@Fuyeor
-    path: '@:username{/:tab(scopes/packages)}?',
+    path: '@:username{/:tab(organizations|packages)}?',
     name: 'Profile',
     component: () => import('@/views/Profile.vue'),
     props: true,
@@ -54,6 +44,50 @@ const appRoutes: Array<RouteRecord> = [
       public: true,
       areaKey: 'profile',
       title: (route: RouteLocation) => `@${String(route.params.username)}`,
+    },
+  },
+    {
+    // fpm.fuyeor.com/organization/@fuyeor
+    path: 'organization/@:username{/:tab(members|packages)}?',
+    name: 'Organization',
+    component: () => import('@/views/Profile.vue'),
+    props: true,
+    meta: {
+      public: true,
+      areaKey: 'profile',
+    },
+  },
+  {
+    // fpm.fuyeor.com/organization/@fuyeor
+    path: 'organization/@:username{/:tab(members|packages)}?',
+    name: 'Organization',
+    component: () => import('@/views/Profile.vue'),
+    props: true,
+    meta: {
+      public: true,
+      areaKey: 'profile',
+    },
+  },
+  {
+    // fpm.fuyeor.com/package/@fuyeor/vue-router
+    path: 'package/:packageName{/:tab(versions|dependencies|dependents)}?',
+    name: 'Package',
+    component: () => import('@/views/Profile.vue'),
+    props: true,
+    meta: {
+      public: true,
+      areaKey: 'package',
+    },
+  },
+  {
+    // fpm.fuyeor.com/search
+    path: 'search',
+    name: 'Search',
+    component: () => import('@/views/Profile.vue'),
+    props: true,
+    meta: {
+      public: true,
+      areaKey: 'search',
     },
   },
 ];

@@ -1,0 +1,122 @@
+{
+  "intro.desc": {
+    "ar": "انشر حزم الويب ودرها وثبتها مثل JavaScript و CSS والمزيد باستخدام fpm.",
+    "de": "Veröffentliche, verwalte und installiere Web-Bibliotheken wie JavaScript, CSS und mehr mit fpm.",
+    "en": "Publish, manage, and install web libraries such as JavaScript, CSS, and more with fpm.",
+    "es": "Publica, gestiona e instala librerías web como JavaScript, CSS y más con fpm.",
+    "fr": "Publiez, gérez et installez des bibliothèques web telles que JavaScript, CSS et plus encore avec fpm.",
+    "ja": "fpm を使用して、JavaScript や CSS などの Web ライブラリを公開、管理、インストールします。",
+    "ko": "fpm을 사용하여 JavaScript, CSS 등의 Web 라이브러리를 배포, 관리 및 설치하세요.",
+    "pt": "Publique, gira e instale bibliotecas web como JavaScript, CSS e muito mais com fpm.",
+    "ru": "Публикуйте, управляйте и устанавливайте веб-библиотеки, такие как JavaScript, CSS и другие, с помощью fpm.",
+    "zh-hans": "使用 fpm 发布、管理和安装 Web 库，如 JavaScript、CSS 等。"
+  },
+  "intro.title": {
+    "ar": "مدير حزم ويب مبسط",
+    "de": "Ein minimalistischer Web-Paketmanager",
+    "en": "A minimalist web package manager",
+    "es": "Un gestor de paquetes web minimalista",
+    "fr": "Un gestionnaire de paquets web minimaliste",
+    "ja": "ミニマリストのためのWebパッケージマネージャー",
+    "ko": "미니멀리스트 Web 패키지 매니저",
+    "pt": "Um gestor de pacotes web minimalista",
+    "ru": "Минималистичный менеджер веб-пакетов",
+    "zh-hans": "极简 Web 包管理器"
+  },
+  "organization.add": {
+    "ar": "إنشاء مؤسسة",
+    "de": "Organisation erstellen",
+    "en": "Create an organization",
+    "es": "Crear una organización",
+    "fr": "Créer une organisation",
+    "ja": "組織を作成",
+    "ko": "조직 생성",
+    "pt": "Criar uma organização",
+    "ru": "Создать организацию",
+    "zh-hans": "新建组织"
+  },
+  "organizations": {
+    "ar": "المؤسسات",
+    "de": "Organisationen",
+    "en": "Organizations",
+    "es": "Organizaciones",
+    "fr": "Organisations",
+    "ja": "組織",
+    "ko": "조직",
+    "pt": "Organizações",
+    "ru": "Организации",
+    "zh-hans": "组织"
+  },
+  "package.dependencies": {
+    "ar": "التبعيّات",
+    "de": "Abhängigkeiten",
+    "en": "Dependencies",
+    "es": "Dependencias",
+    "fr": "Dépendances",
+    "ja": "依存関係",
+    "ko": "의존성",
+    "pt": "Dependências",
+    "ru": "Зависимости",
+    "zh-hans": "依赖"
+  },
+  "package.dependents": {
+    "ar": "الحزم التابعة",
+    "de": "Abhängige Pakete",
+    "en": "Dependents",
+    "es": "Dependientes",
+    "fr": "Dépendants",
+    "ja": "被依存関係",
+    "ko": "피의존성",
+    "pt": "Dependentes",
+    "ru": "Зависимые пакеты",
+    "zh-hans": "依赖者"
+  },
+  "package.versions": {
+    "ar": "الإصدارات",
+    "de": "Versionen",
+    "en": "Versions",
+    "es": "Versiones",
+    "fr": "Versions",
+    "ja": "バージョン履歴",
+    "ko": "버전 기록",
+    "pt": "Versões",
+    "ru": "Версии",
+    "zh-hans": "历史版本"
+  },
+  "packages": {
+    "ar": "الحزم",
+    "de": "Pakete",
+    "en": "Packages",
+    "es": "Paquetes",
+    "fr": "Paquets",
+    "ja": "パッケージ",
+    "ko": "패키지",
+    "pt": "Pacotes",
+    "ru": "Пакеты",
+    "zh-hans": "软件包"
+  },
+  "site.name": {
+    "ar": "fpm",
+    "de": "fpm",
+    "en": "fpm",
+    "es": "fpm",
+    "fr": "fpm",
+    "ja": "fpm",
+    "ko": "fpm",
+    "pt": "fpm",
+    "ru": "fpm",
+    "zh-hans": "fpm"
+  },
+  "site.title": {
+    "ar": "مدير تطوير ويب مستقل ومكتفٍ ذاتيًا للمتجولين عبر الشبكة",
+    "de": "Ein autonomer Web-Entwicklungsmanager für Webroamer",
+    "en": "An isolational web development manager for webroamers",
+    "es": "Un gestor de desarrollo web autónomo para nómadas de la red",
+    "fr": "Un gestionnaire de développement web autonome pour les nomades du net",
+    "ja": "ネットワーク放浪者のための、純粋で自律的なWeb開発マネージャー",
+    "ko": "네트워크 유랑자를 위한 순수 자치형 Web 개발 매니저",
+    "pt": "Um gestor de desenvolvimento web autônomo para nómadas da rede",
+    "ru": "Автономный менеджер веб-разработки для сетевых странников",
+    "zh-hans": "纯粹、自治。为网络漫游者打造的 Web 包管理器"
+  }
+}

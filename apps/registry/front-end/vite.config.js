@@ -1,4 +1,4 @@
-// @webroamer/registry-front-end/vite.config.js
+// @fuyeor/fpm-front-end/vite.config.js
 import { defineConfig, loadEnv } from 'vite';
 import { createViteConfig } from '@fuyeor/config/vite.config.js';
 
