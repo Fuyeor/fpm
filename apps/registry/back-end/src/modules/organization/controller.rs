@@ -6,7 +6,7 @@ use sea_orm::DatabaseConnection;
 
 #[utoipa::path(
     post,
-    path = "validations/scope",
+    path = "organizations/validation",
     request_body = CheckScopeRequest,
     responses((status = 200, body = ScopeValidationResponse)),
     tag = "Organization"
@@ -35,7 +35,7 @@ pub async fn validate_scope(
 /// Create a new organization (scope) for the authenticated user
 pub async fn create_organization(
     State(db): State<DatabaseConnection>,
-    user: CurrentUser, 
+    user: CurrentUser,
     Json(payload): Json<CreateScopeRequest>,
 ) -> Result<Json<CreateScopeResponse>, (StatusCode, String)> {
     service::create_scope(&db, user.id, payload.name)

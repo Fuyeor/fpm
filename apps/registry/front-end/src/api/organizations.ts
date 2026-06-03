@@ -11,15 +11,12 @@ import type {
  * Check if a scope name is available (Anonymous/Authenticated)
  */
 export const validateScope = (body: CheckScopeRequest) => {
-  return apiClient.post<ScopeValidationResponse>(
-    '/api/validations/scope',
-    body,
-  );
+  return apiClient.post<ScopeValidationResponse>('/organizations/validation', body);
 };
 
 /**
  * Create a new Scope (Organization) (Authenticated only)
  */
 export const createOrganization = (body: CreateScopeRequest) => {
-  return apiClient.post<CreateScopeResponse>('/api/organizations', body);
+  return apiClient.post<CreateScopeResponse>('/organizations', body);
 };

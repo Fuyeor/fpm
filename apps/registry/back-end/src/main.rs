@@ -11,9 +11,10 @@ use std::net::SocketAddr;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
-use crate::modules::auth::{AuthApi, controller as auth_ctrl};
-use crate::modules::package::{PackageApi, controller as pkg_ctrl};
-use crate::modules::user::{UserApi, controller as user_ctrl};
+use crate::modules::auth::{AuthApi, controller as auth};
+use crate::modules::organization::{OrganizationApi, controller as organization};
+use crate::modules::package::{PackageApi, controller as package};
+use crate::modules::user::{UserApi, controller as user};
 
 #[derive(Clone)]
 pub struct AppState {
@@ -42,7 +43,7 @@ impl FromRef<AppState> for S3Client {
 }
 
 #[derive(OpenApi)]
-#[openapi(info(title = "fpm.fuyeor.com API", version = "0.1.0"))]
+#[openapi(info(title = "fpm.fuyeor.com API"))]
 struct ApiDoc;
 
 #[tokio::main]
@@ -69,19 +70,31 @@ async fn main() {
     openapi.merge(AuthApi::openapi());
     openapi.merge(PackageApi::openapi());
     openapi.merge(UserApi::openapi());
+    openapi.merge(OrganizationApi::openapi());
 
     // Build Router
     let app = Router::new()
         // Auth Routes
-        .route("/auth/signin", post(auth_ctrl::signin))
-        .route("/auth/token", post(auth_ctrl::create_token))
-        .route("/auth/refresh-token", post(auth_ctrl::refresh))
-        // Package Routes
-        .route("/packages/acquire", post(pkg_ctrl::acquire_upload))
-        .route("/packages/commit", post(pkg_ctrl::commit_upload))
+        .route("/auth/signin", post(auth::signin))
+        .route("/auth/token", post(auth::create_token))
+        .route("/auth/refresh-token", post(auth::refresh))
         // User Routes
-        .route("/users/:username", get(user_ctrl::get_user_profile))
-        .route("/users/me", get(user_ctrl::get_me))
+        .route("/users/me", get(user::get_me))
+        .route("/users/:username", get(user::get_user_profile))
+        .route(
+            "/users/:username/organizations",
+            get(user::get_user_organizations),
+        )
+        .route("/users/:username/packages", get(user::get_user_packages))
+        // organization Routes
+        .route(
+            "/organizations/validation",
+            post(organization::validate_scope),
+        )
+        .route("/organizations", post(organization::create_organization))
+        // Package Routes
+        .route("/packages/acquire", post(package::acquire_upload))
+        .route("/packages/commit", post(package::commit_upload))
         .merge(SwaggerUi::new("/docs").url("/docs/openapi.json", openapi))
         .with_state(state);
 

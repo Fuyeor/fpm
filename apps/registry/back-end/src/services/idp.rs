@@ -26,6 +26,7 @@ pub struct WwwUser {
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct WwwTokenResponse {
+    #[allow(dead_code)]
     pub tokens: WwwTokens,
     pub user: WwwUser,
 }
@@ -33,7 +34,9 @@ pub struct WwwTokenResponse {
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct WwwTokens {
+    #[allow(dead_code)]
     pub access_token: String,
+    #[allow(dead_code)]
     pub refresh_token: String,
 }
 
@@ -53,41 +56,18 @@ pub async fn exchange_code(
 
     let token_url = format!("{}/oauth/token", config.idp_base_url);
 
-    /*
-        println!(
-            "\n[IdP Debug] 🚀 发起 OAuth 令牌交换...\n[IdP Debug] 🔗 请求 URL: {}\n[IdP Debug] 📝 回调地址: {}\n",
-            token_url,
-            config.idp_redirect_uri
-        );
-    */
-
     let response = http_client.post(&token_url).json(&payload).send().await?;
 
     let status = response.status();
     let body_text = response.text().await?;
 
     if status != StatusCode::OK {
-        /*
-        println!(
-            "\n[IdP Debug] ❌ 请求失败! 状态码: {}\n[IdP Debug] 🔗 失败的 URL: {}\n[IdP Debug] 📥 主站原始报错: {}\n",
-            status,
-            token_url,
-            body_text
-        );
-        */
         return Err(format!("Auth failed. IdP returned: {}", body_text).into());
     }
 
     let result: WwwTokenResponse = match serde_json::from_str(&body_text) {
         Ok(res) => res,
         Err(e) => {
-            /*
-            println!(
-                "\n[IdP Debug] ❌ JSON 解析失败!\n[IdP Debug] 🔍 错误原因: {}\n[IdP Debug] 📥 主站返回的原始 JSON 数据: {}\n",
-                e,
-                body_text
-            );
-            */
             return Err(format!("JSON decode failed: {}", e).into());
         }
     };

@@ -11,6 +11,54 @@
     "ru": "Публикуйте, управляйте и устанавливайте веб-библиотеки, такие как JavaScript, CSS и другие, с помощью fpm.",
     "zh-hans": "使用 fpm 发布、管理和安装 Web 库，如 JavaScript、CSS 等。"
   },
+  "intro.start": {
+    "ar": "بدء سريع",
+    "de": "Schnellstart",
+    "en": "Quick Start",
+    "es": "Inicio rápido",
+    "fr": "Démarrage rapide",
+    "ja": "クイックスタート",
+    "ko": "빠른 시작",
+    "pt": "Início rápido",
+    "ru": "Быстрый старт",
+    "zh-hans": "快速开始"
+  },
+  "intro.start.account": {
+    "ar": "إعداد حسابي",
+    "de": "Mein Konto einrichten",
+    "en": "Account settings",
+    "es": "Configurar mi cuenta",
+    "fr": "Configurer mon compte",
+    "ja": "アカウントの設定",
+    "ko": "내 계정 설정",
+    "pt": "Configurar minha conta",
+    "ru": "Настройка моего аккаунта",
+    "zh-hans": "设置我的账号"
+  },
+  "intro.start.organization": {
+    "ar": "إنشاء أو إدارة المنظمات",
+    "de": "Organisationen erstellen oder verwalten",
+    "en": "Create or manage organizations",
+    "es": "Crear o administrar organizaciones",
+    "fr": "Créer ou gérer des organisations",
+    "ja": "組織の作成または管理",
+    "ko": "조직 생성 또는 관리",
+    "pt": "Criar ou gerenciar organizações",
+    "ru": "Создание или управление организациями",
+    "zh-hans": "创建或管理组织"
+  },
+  "intro.start.token": {
+    "ar": "إنشاء أو إدارة الرموز (Tokens)",
+    "de": "Tokens erstellen oder verwalten",
+    "en": "Create or manage tokens",
+    "es": "Crear o administrar tokens",
+    "fr": "Créer ou gérer des tokens",
+    "ja": "トークンの作成または管理",
+    "ko": "토큰 생성 또는 관리",
+    "pt": "Criar ou gerenciar tokens",
+    "ru": "Создание или управление токенами",
+    "zh-hans": "创建或管理 Tokens"
+  },
   "intro.title": {
     "ar": "مدير حزم ويب مبسط",
     "de": "Ein minimalistischer Web-Paketmanager",
@@ -94,6 +142,18 @@
     "pt": "Pacotes",
     "ru": "Пакеты",
     "zh-hans": "软件包"
+  },
+  "search.placeholder": {
+    "ar": "ابحث عن الحزم或者是المستخدمين...",
+    "de": "Pakete oder Benutzer suchen...",
+    "en": "Search packages or users...",
+    "es": "Buscar paquetes o usuarios...",
+    "fr": "Rechercher des packages ou des utilisateurs...",
+    "ja": "パッケージまたはユーザーを検索...",
+    "ko": "패키지 또는 사용자 검색...",
+    "pt": "Buscar pacotes ou usuários...",
+    "ru": "Поиск пакетов или пользователей...",
+    "zh-hans": "搜索包或用户..."
   },
   "site.name": {
     "ar": "fpm",

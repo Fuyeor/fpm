@@ -1,72 +1,89 @@
-// @/stores/user.ts
+// src/stores/user.ts
 import { ref, computed } from 'vue';
 import { defineStore, getCookie } from '@fuyeor/commons';
 import { getMe } from '@/api/users';
-import type { EmbeddedUser } from '@/types/user';
+import type { EmbeddedUser, UserOrganization } from '@/types/user';
 
 export const useUserStore = defineStore('user', () => {
   // 防并发请求的 Promise 锁
-  let userInfoPromise: Promise<void> | null = null;
+  let sessionPromise: Promise<void> | null = null;
 
+  // 1. State
   const isLoading = ref<boolean>(false);
-
   const currentUser = ref<EmbeddedUser | null>(null);
+  const organizations = ref<UserOrganization[]>([]);
+
+  // 2. Getters (所有的状态判定，完全基于 currentUser 这一处真理)
+const isAuthenticated = computed(() => !!currentUser.value || !!getCookie('session_payload'));
+
   const isUserLoaded = computed(() => !!currentUser.value);
+  
+  const canCreateOrganization = computed(() => {
+    const ownedCount = organizations.value.filter(org => org.role === 'admin').length;
+    return ownedCount < 5;
+  });
 
-  function setUser(user: EmbeddedUser | null) {
+  // 3. Actions
+  
+  /**
+   * 登录成功的统一处理
+   */
+  function onSigninSuccess(user: EmbeddedUser, orgs: UserOrganization[]) {
     currentUser.value = user;
+    organizations.value = orgs;
   }
 
-  function clearUser() {
+  /**
+   * 彻底清理用户会话，直接强制回首页
+   */
+  function signout() {
     currentUser.value = null;
+    organizations.value = [];
+    window.location.href = '/';
   }
 
-  // 加载当前用户信息（支持并发复用）
-  async function loadCurrentUser() {
-    if (userInfoPromise) return userInfoPromise;
-
-    if (!getCookie('session_payload')) return;
+  /**
+   * 撞门：自动加载当前登录会话 (极速、防并发)
+   */
+  async function loadCurrentSession() {
+    if (sessionPromise) return sessionPromise;
 
     isLoading.value = true;
     try {
-      userInfoPromise = (async () => {
-        const userInfo = await getMe();
-        setUser(userInfo);
+      sessionPromise = (async () => {
+        // ✨ 修正：直接获取返回值，没有任何该死的 .data 套娃！
+        const session = await getMe(); 
+        onSigninSuccess(session.user, session.organizations);
       })();
-      await userInfoPromise;
+      await sessionPromise;
     } catch (error) {
-      // 认证失败(401)由 apiClient 全局拦截器处理，断网/500等错误不该强制登出。
-      console.error('[UserStore] Failed to load user info:', error);
+      console.error('[UserStore] Failed to load user session:', error);
+      // 如果 401，说明没有登录态，直接清理
+      clearSession();
       throw error;
     } finally {
       isLoading.value = false;
-      // 无论成功或失败，加载结束后都清空 Promise，以便下次可以重新加载
-      userInfoPromise = null;
+      sessionPromise = null;
     }
   }
 
-  // 返回 User 信息
-  async function fetchCurrentUser(): Promise<EmbeddedUser> {
-    // 如果 state 中已有用户信息，直接返回，避免重复请求
-    if (currentUser.value) return currentUser.value;
-
-    // 否则，调用加载函数
-    await loadCurrentUser();
-
-    // 加载后再次检查，如果仍然没有，说明加载失败，抛出错误
-    if (!currentUser.value) {
-      throw new Error('Failed to fetch current user after loading.');
-    }
-
-    return currentUser.value;
+  function clearSession() {
+    currentUser.value = null;
+    organizations.value = [];
   }
 
   return {
+    // State & Getters
+    isLoading,
     currentUser,
+    organizations,
+    isAuthenticated,
     isUserLoaded,
-    setUser,
-    clearUser,
-    loadCurrentUser,
-    fetchCurrentUser,
+    canCreateOrganization,
+    
+    // Actions
+    onSigninSuccess,
+    loadCurrentSession,
+    signout,
   };
 });

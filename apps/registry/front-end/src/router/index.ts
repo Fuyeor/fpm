@@ -7,7 +7,6 @@ import {
 } from '@fuyeor/vue-router';
 import { useTransitionBar } from '@fuyeor/interactify';
 import { useLocaleStore } from '@fuyeor/commons';
-import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { LOCALE_REGEX } from '@/config/locales';
 
@@ -46,7 +45,7 @@ const appRoutes: Array<RouteRecord> = [
       title: (route: RouteLocation) => `@${String(route.params.username)}`,
     },
   },
-    {
+  {
     // fpm.fuyeor.com/organization/@fuyeor
     path: 'organization/@:username{/:tab(members|packages)}?',
     name: 'Organization',
@@ -90,6 +89,28 @@ const appRoutes: Array<RouteRecord> = [
       areaKey: 'search',
     },
   },
+  // fpm.fuyeor.com/options
+  {
+    path: 'options',
+    name: 'Option',
+    component: () => import('@/views/Options/Index.vue'), // 作为布局/容器组件
+    meta: {
+      areaKey: 'settings',
+      titleKey: 'settings',
+    },
+    children: [
+      {
+        // fpm.fuyeor.com/options/account
+        path: 'account',
+        name: 'Option.Account',
+      },
+      {
+        // fpm.fuyeor.com/options/tokens
+        path: 'tokens',
+        name: 'Option.Token',
+      },
+    ],
+  },
 ];
 
 // root router
@@ -126,7 +147,6 @@ router.beforeEach(async (to, from) => {
   // 启动顶部进度条
   start();
 
-  const authStore = useAuthStore();
   const userStore = useUserStore();
   // 获取语言 store
   const localeStore = useLocaleStore();
@@ -147,9 +167,9 @@ router.beforeEach(async (to, from) => {
 
   // 如果用户已认证但信息未加载，则加载信息。
   // 这是整个守卫中唯一需要加载数据的地方。
-  if (authStore.isAuthenticated && !userStore.isUserLoaded) {
+  if (userStore.isAuthenticated && !userStore.isUserLoaded) {
     try {
-      await userStore.loadCurrentUser();
+      await userStore.loadCurrentSession();
     } catch {
       // 如果加载失败，store 内部的 onSignOut 会处理状态，
       // authStore.isAuthenticated 将变为 false，后续逻辑会自动处理。
@@ -162,7 +182,7 @@ router.beforeEach(async (to, from) => {
   // 检查路由是否需要认证
   const requiresAuth = to.meta.public !== true;
 
-  if (requiresAuth && !authStore.isAuthenticated) {
+  if (requiresAuth && !userStore.isAuthenticated) {
     // 存业务跳转目标
     window.sessionStorage.setItem('redirect_target', to.fullPath);
 
@@ -181,7 +201,7 @@ router.beforeEach(async (to, from) => {
   return true;
 });
 
-router.afterEach((to) => {
+router.afterEach(() => {
   done();
 });
 

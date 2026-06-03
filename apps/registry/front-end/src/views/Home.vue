@@ -1,6 +1,5 @@
 <!-- @/views/Home.vue -->
 <template>
-  <!-- 语言切换器 -->
   <locale-switcher
     :supported-locales="SUPPORTED_LOCALES"
     @change="handleLocaleChange"
@@ -18,12 +17,38 @@
         {{ t('signin.withFu') }}
       </a>
     </section>
+
+    <!-- introduction Section -->
+    <section v-if="isAuthenticated" class="introduction">
+      <h2>{{ t('intro.start') }}</h2>
+
+      <div class="introduction-links">
+        <router-link :to="{ name: 'Option.Account' }" class="nav-item">
+          {{ t('intro.start.account') }} <img :src="getIconUrl('back')" />
+        </router-link>
+
+        <router-link
+          :to="{
+            name: 'Profile',
+            params: { username: currentUser!.username, tab: 'organizations' },
+          }"
+          class="nav-item"
+        >
+          {{ t('intro.start.organization') }} <img :src="getIconUrl('back')" />
+        </router-link>
+
+        <router-link :to="{ name: 'Option.Token' }" class="nav-item">
+          {{ t('intro.start.token') }} <img :src="getIconUrl('back')" />
+        </router-link>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useRoute, useRouter } from '@fuyeor/vue-router';
 import { useLocale } from '@fuyeor/locale';
+import { getIconUrl } from '@fuyeor/commons';
 import { LocaleSwitcher, SearchBar } from '@fuyeor/interactify';
 import { useAuth } from '@/composables/auth/useAuth';
 import { SUPPORTED_LOCALES } from '@/config/locales';
@@ -32,7 +57,7 @@ const route = useRoute();
 const router = useRouter();
 
 const { t } = useLocale();
-const { isAuthenticated } = useAuth();
+const { isAuthenticated, currentUser } = useAuth();
 
 // 处理语言切换带来的路由变更
 const handleLocaleChange = (newLocale: string) => {
@@ -70,22 +95,6 @@ const handleSignin = () => {
 </script>
 
 <style>
-:root {
-  --primary: #111111;
-  --secondary: #666666;
-  --accent: #007aff;
-  --neutral: #f5f5f5;
-  --border: #e0e0e0;
-  --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
-:root[data-theme='dark'],
-:root[data-theme='black'] {
-  --primary: #ffffff;
-  --secondary: #d6d6d6;
-  --accent: #007aff;
-  --neutral: #2c2936;
-  --border: #e0e0e0;
-}
 html:lang(zh-hans),
 html:lang(zh-hant),
 html:lang(ja) {
@@ -98,55 +107,59 @@ html:lang(ja) {
     }
   }
 }
+
 .locale-switcher {
   padding: 20px 0 0 20px;
 }
+
 .intro-layout {
-  /* Hero Section */
-  .hero {
-    display: flex;
-    padding: 4rem 2rem;
-    flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
 
-    .search-bar-container input {
-      border-radius: 24px;
-      padding: 14px;
-    }
+/* Hero Section */
+.hero {
+  display: flex;
+  padding: 4rem 0;
+  flex-direction: column;
 
-    h1 {
-      font-size: clamp(2.5rem, 6vw, 3rem);
-      color: var(--primary);
-      font-weight: 300;
-      line-height: 1.2;
-      span {
-        font-weight: 400;
-      }
-    }
-    p {
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      color: var(--secondary);
-      margin-bottom: 3rem;
-      max-width: 600px;
-    }
-    .cta-button {
-      display: inline-block;
-      align-self: flex-start;
-      background: var(--primary);
-      color: #fff;
-      border-radius: 24px;
-      padding: 0.8rem 2.5rem;
-      margin-top: 3rem;
-      text-decoration: none;
-      font-size: 1rem;
-      letter-spacing: 0.05em;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
+  .search-bar-container input {
+    border-radius: 24px;
+    padding: 14px;
+  }
 
-      &:hover {
-        background: var(--primary);
-        color: var(--white);
-      }
+  h1 {
+    font-size: 3rem;
+    color: var(--text-primary);
+    font-weight: 300;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    max-width: 600px;
+  }
+
+  .cta-button {
+    display: inline-block;
+    align-self: flex-start;
+    background: var(--text-primary);
+    color: #fff;
+    border-radius: 24px;
+    padding: 0.8rem 2.5rem;
+    margin-top: 3rem;
+    text-decoration: none;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: var(--text-primary);
     }
   }
 
@@ -162,6 +175,29 @@ html:lang(ja) {
   @media (width <= 600px) {
     .hero .hero-content h1 {
       font-size: clamp(2rem, 6vw, 3rem);
+    }
+  }
+}
+
+/* introduction Section */
+.introduction {
+  h2 {
+    color: var(--text-primary);
+    font-weight: 450;
+  }
+  .introduction-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    a {
+      display: flex;
+      gap: 8px;
+    }
+
+    img {
+      width: 1.5rem;
+      transform: rotate(-180deg);
     }
   }
 }

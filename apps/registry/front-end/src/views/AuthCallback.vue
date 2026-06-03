@@ -9,13 +9,13 @@ import { useRoute, useRouter } from '@fuyeor/vue-router';
 import { useLocale } from '@fuyeor/locale';
 import { StateDisplay } from '@fuyeor/interactify';
 import { signin } from '@/api/auth';
-import { useAuthStore } from '@/stores/auth';
+import { useUserStore } from '@/stores/user';
 
 const { t } = useLocale();
 
 const route = useRoute();
 const router = useRouter();
-const authStore = useAuthStore();
+const userStore = useUserStore();
 
 onMounted(async () => {
   const code = route.query.code as string;
@@ -32,9 +32,9 @@ onMounted(async () => {
   // 如果拿到 code，就开始换取 Token
   if (code) {
     try {
-      const user = await signin({ code });
+      const { user, organizations } = await signin({ code });
 
-      authStore.onSigninSuccess(user);
+      userStore.onSigninSuccess(user, organizations);
 
       // 登录成功！跳转到首页！
       router.push({ name: 'Home' });

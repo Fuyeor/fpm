@@ -1,84 +1,47 @@
 # ========================
-# 环境变量 (敏感文件!)
+# Environment variables
 # ========================
 .env
 .env.production
 .env.development
-appsettings.Development.json
 
 # ========================
-# 依赖管理
+# Dependencies
 # ========================
 
-# 忽略所有子目录的锁文件（npm/pnpm/cargo）
 **/pnpm-lock.yaml
 **/package-lock.json
 **/Cargo.lock
 
-# 只保留根目录的锁文件
+# keep lock files
 !pnpm-lock.yaml
 !Cargo.lock
 
-# 忽略私有包
-packages/vendor/fuyeor/packages
-
 # ========================
-# 构建输出
+# Generated files
 # ========================
 
-# cargo 与 npm 依赖
 **/target
 **/node_modules
 
-# .NET 编译产生的二进制文件夹
-bin/
-obj/
-
-# 构建文件
 **/dist
 **/build
 **/generated
-
-# 后端数据目录
-**/back-end/public
-**/back-end/storage
-# 生成的前端语言文件
-**/front-end/public/assets/locale
-# Prisma 生成文件
-**/packages/prisma/*/client
+**/public/assets/locale
 
 # ========================
-# 临时文件和缓存
+# Temporiary files
 # ========================
 
 .tmp
 .temp
 .turbo
 
-# 临时文件目录
-**/temp
-# python 缓存目录
+# python cache
 **/__pycache__
-# 前端 service worker 开发目录
-**/dev-dist
 
 # ========================
-# 测试相关
-# ========================
-
-**/coverage
-
-# ========================
-# 日志文件
-# ========================
-
-logs
-*.log
-npm-debug.log*
-pnpm-debug.log*
-
-# ========================
-# IDE 配置
+# IDE configuration
 # ========================
 
 .idea
@@ -95,7 +58,7 @@ pnpm-debug.log*
 !.vscode/extensions.json
 
 # ========================
-# 系统文件
+# System files
 # ========================
 
 .DS_Store

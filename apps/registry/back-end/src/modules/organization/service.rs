@@ -1,17 +1,35 @@
 // src/modules/organization/service.rs
-use axum::http::StatusCode;
-use sea_orm::{DatabaseConnection, EntityTrait, ColumnTrait, QueryFilter, PaginatorTrait, TransactionTrait, Set, ActiveModelTrait};
-use uuid::Uuid;
 use crate::{
-    entities::{organization, prelude::Organization, organization_member},
+    entities::{organization, organization_member, prelude::Organization},
     modules::organization::dto::*,
 };
+use axum::http::StatusCode;
+use sea_orm::{
+    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, PaginatorTrait, QueryFilter,
+    Set, TransactionTrait,
+};
+use uuid::Uuid;
 
 // Hard-coded system-level reserved words
 const FORBIDDEN_SCOPES: &[&str] = &[
-    "node", "nodejs", "jsr", "deno", "author", "user", "maintainer", 
-    "npm", "pnpm", "yarn", "root", "admin", 
-    "system", "official", "api", "registry", "auth", "package"
+    "node",
+    "nodejs",
+    "jsr",
+    "deno",
+    "author",
+    "user",
+    "maintainer",
+    "npm",
+    "pnpm",
+    "yarn",
+    "root",
+    "admin",
+    "system",
+    "official",
+    "api",
+    "registry",
+    "auth",
+    "package",
 ];
 
 /// 验证一个 Scope 名字是否合法且可用
@@ -44,7 +62,9 @@ pub async fn check_scope_availability(
         let owned_count = organization_member::Entity::find()
             .filter(organization_member::Column::UserId.eq(uid))
             .filter(organization_member::Column::Role.eq("admin"))
-            .count(db).await.map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+            .count(db)
+            .await
+            .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
         if owned_count >= 5 {
             return Ok(ScopeValidationResponse {
@@ -57,7 +77,9 @@ pub async fn check_scope_availability(
     // 4. 重名校验 (查库)
     let exists = Organization::find()
         .filter(organization::Column::Name.eq(&lowercased))
-        .one(db).await.map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
+        .one(db)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
         .is_some();
 
     if exists {
@@ -73,7 +95,6 @@ pub async fn check_scope_availability(
     })
 }
 
-
 pub async fn create_scope(
     db: &DatabaseConnection,
     user_id: Uuid,
@@ -82,24 +103,31 @@ pub async fn create_scope(
     let lowercased = name.to_lowercase();
 
     // 再次执行强校验
-    let validation = check_scope_availability(db, &lowercased, Some(user_id)).await
+    let validation = check_scope_availability(db, &lowercased, Some(user_id))
+        .await
         .map_err(|s| (s, "Validation failed".into()))?;
-    
+
     if !validation.available {
         return Err((StatusCode::BAD_REQUEST, validation.message));
     }
 
-    let txn = db.begin().await.map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
+    let txn = db
+        .begin()
+        .await
+        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 
     let org_id = Uuid::now_v7();
-    
+
     // 插入 organization 表
     let org_model = organization::ActiveModel {
         id: Set(org_id),
         name: Set(lowercased.clone()),
         ..Default::default()
     };
-    org_model.insert(&txn).await.map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
+    org_model
+        .insert(&txn)
+        .await
+        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 
     // 插入 organization_member 表
     let member_model = organization_member::ActiveModel {
@@ -107,10 +135,18 @@ pub async fn create_scope(
         user_id: Set(user_id),
         role: Set("admin".to_string()),
     };
-    member_model.insert(&txn).await.map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
+    member_model
+        .insert(&txn)
+        .await
+        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 
     // 提交事务
-    txn.commit().await.map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
+    txn.commit()
+        .await
+        .map_err(|e| (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()))?;
 
-    Ok(CreateScopeResponse { id: org_id, name: lowercased })
+    Ok(CreateScopeResponse {
+        id: org_id,
+        name: lowercased,
+    })
 }

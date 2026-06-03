@@ -13,11 +13,19 @@
   <div v-else-if="user" class="profile-layout">
     <!-- 头部区域 -->
     <ProfileHeader :user="user" />
+
+      <!-- 用户信息区域 -->
+    <ProfileInfo :user="user" />
+
+       <!-- 用户内容 -->
+    <ProfileContent :user="user" :username="username" :tab="tab" />
   </div>
 </template>
 
 <script setup lang="ts">
 import ProfileHeader from '@/components/Profile/Header.vue';
+import ProfileInfo from '@/components/Profile/Info.vue';
+import ProfileContent from '@/components/Profile/Content.vue';
 
 import { toRef, onUnmounted, watch } from 'vue';
 import { useRouter } from '@fuyeor/vue-router';

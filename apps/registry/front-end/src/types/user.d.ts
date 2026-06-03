@@ -9,6 +9,8 @@ export interface EmbeddedUser {
   nickname: string;
   /** Avatar URL if set */
   avatar?: string;
+  /** User's organizations */
+  organizations: UserOrganization[];
 }
 
 export interface User {
@@ -20,6 +22,31 @@ export interface User {
   nickname: string;
   /** Avatar URL if set */
   avatar?: string;
+}
+
+export interface UserOrganization {
+  /** Organization UUID */
+  id: string;
+  /** Scope name, e.g., 'fuyeor' */
+  name: string;
+  /** Role in this scope: 'admin' | 'publisher' */
+  role: string;
+}
+
+export interface UserPackage {
+  id: string;
+  name: string;
+  fullName: string;
+  description?: string ;
+  createdAt: string; 
+}
+
+/**
+ * Full session payload returned by /api/users/me (Private cockpit)
+ */
+export interface MySessionResponse {
+  user: EmbeddedUser;
+  organizations: UserOrganization[];
 }
 
 /**

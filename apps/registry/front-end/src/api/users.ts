@@ -1,18 +1,32 @@
-// src/api/users.ts
+// src/api/user.ts
 import apiClient from './index';
-import type { User,EmbeddedUser } from '@/types/user';
-
+import type {
+  EmbeddedUser,
+  MySessionResponse,
+  UserOrganization,
+  UserPackage,
+} from '@/types/user';
 
 /**
- * Get current user profile
+ * Get current user session big-package (Private)
+ * Returns { user, organizations }
  */
 export const getMe = () => {
-  return apiClient.get<EmbeddedUser>('/users/me');
+  return apiClient.get<MySessionResponse>('/users/me');
 };
 
 /**
  * Public API: Fetch a user profile by their case-insensitive username
+ * Returns only the pure User metadata (EmbeddedUser)
  */
 export const getUserProfile = (username: string) => {
-  return apiClient.get<User>(`/users/${username}`);
+  return apiClient.get<EmbeddedUser>(`/users/${username}`);
+};
+
+export const getUserOrganizations = (username: string) => {
+  return apiClient.get<UserOrganization[]>(`/users/${username}/organizations`);
+};
+
+export const getUserPackages = (username: string) => {
+  return apiClient.get<UserPackage[]>(`/users/${username}/packages`);
 };

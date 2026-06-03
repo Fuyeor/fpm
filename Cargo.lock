@@ -1440,6 +1440,7 @@ dependencies = [
  "hex",
  "jsonwebtoken",
  "rand 0.10.1",
+ "regex",
  "reqwest",
  "sea-orm",
  "serde",

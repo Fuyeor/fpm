@@ -4,8 +4,14 @@
   --width-left-sidebar: 360px;
   --width-right-sidebar: 360px;
 
-  --text-primary: #3e5063;
-  --text-secondary: #4b5a6b;
+  --text-primary: #111111;
+}
+
+a {
+  color: var(--button-business);
+}
+a:hover {
+  color: var(--button-business-hover);
 }
 
 /* 大于 1000px 电脑版 */
