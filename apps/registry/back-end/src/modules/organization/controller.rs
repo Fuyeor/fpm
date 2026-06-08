@@ -11,14 +11,14 @@ use sea_orm::DatabaseConnection;
     responses((status = 200, body = ScopeValidationResponse)),
     tag = "Organization"
 )]
-/// Validate if a Scope (Organization) name is available
+/// Validate if a Scope (Organization) username is available
 pub async fn validate_scope(
     State(db): State<DatabaseConnection>,
     user: Option<CurrentUser>,
     Json(payload): Json<CheckScopeRequest>,
 ) -> Result<Json<ScopeValidationResponse>, (StatusCode, String)> {
     let uid = user.map(|u| u.id);
-    service::check_scope_availability(&db, &payload.name, uid)
+    service::check_scope_availability(&db, &payload.username, uid)
         .await
         .map(Json)
         .map_err(|s| (s, "Database error".into()))
@@ -38,7 +38,7 @@ pub async fn create_organization(
     user: CurrentUser,
     Json(payload): Json<CreateScopeRequest>,
 ) -> Result<Json<CreateScopeResponse>, (StatusCode, String)> {
-    service::create_scope(&db, user.id, payload.name)
+    service::create_scope(&db, user.id, payload.username)
         .await
         .map(Json)
 }

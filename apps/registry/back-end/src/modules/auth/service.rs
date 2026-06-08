@@ -171,6 +171,51 @@ pub async fn refresh_tokens(
     Ok(res)
 }
 
+/// List all active CLI tokens for a user
+pub async fn list_tokens(
+    db: &DatabaseConnection,
+    user_id: Uuid,
+) -> Result<Vec<UserTokenDto>, StatusCode> {
+    let tokens = Token::find()
+        .filter(token::Column::UserId.eq(user_id))
+        .all(db)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+
+    let mapped = tokens
+        .into_iter()
+        .map(|t| UserTokenDto {
+            id: t.id,
+            name: t.name,
+            created_at: t.created_at,
+        })
+        .collect();
+
+    Ok(mapped)
+}
+
+/// Revoke/Delete a specific token securely
+pub async fn revoke_token(
+    db: &DatabaseConnection,
+    user_id: Uuid,
+    token_id: Uuid,
+) -> Result<(), StatusCode> {
+    // 必须双重校验 id 和 user_id，确保只有所有者才能删除！
+    let token_record = Token::find()
+        .filter(token::Column::Id.eq(token_id))
+        .filter(token::Column::UserId.eq(user_id))
+        .one(db)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
+        .ok_or(StatusCode::NOT_FOUND)?;
+
+    token_record
+        .delete(db)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+    Ok(())
+}
+
 /// CLI Personal Access Token creation
 pub async fn create_token(
     db: &DatabaseConnection,

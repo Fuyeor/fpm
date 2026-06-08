@@ -9,8 +9,9 @@ pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     #[sea_orm(column_type = "custom(\"citext\")", unique)]
-    pub name: String,
+    pub username: String,
     pub created_at: DateTimeWithTimeZone,
+    pub description: Option<String>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

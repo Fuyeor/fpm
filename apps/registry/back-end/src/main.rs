@@ -6,7 +6,7 @@ mod services;
 mod utils;
 
 use aws_sdk_s3::Client as S3Client;
-use axum::{Router, extract::FromRef, routing::get, routing::post};
+use axum::{Router, extract::FromRef, routing::delete, routing::get, routing::post};
 use std::net::SocketAddr;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
@@ -76,8 +76,10 @@ async fn main() {
     let app = Router::new()
         // Auth Routes
         .route("/auth/signin", post(auth::signin))
-        .route("/auth/token", post(auth::create_token))
         .route("/auth/refresh-token", post(auth::refresh))
+        .route("/auth/token", post(auth::create_token))
+        .route("/auth/tokens", get(auth::list_tokens))
+        .route("/auth/tokens/{id}", delete(auth::revoke_token))
         // User Routes
         .route("/users/me", get(user::get_me))
         .route("/users/:username", get(user::get_user_profile))

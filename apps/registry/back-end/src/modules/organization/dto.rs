@@ -7,7 +7,7 @@ use uuid::Uuid;
 #[derive(Deserialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct CheckScopeRequest {
-    pub name: String,
+    pub username: String,
 }
 
 /// Response payload for Scope validation
@@ -22,7 +22,7 @@ pub struct ScopeValidationResponse {
 #[derive(Deserialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct CreateScopeRequest {
-    pub name: String,
+    pub username: String,
 }
 
 /// Response payload after a successful Scope creation
@@ -30,5 +30,5 @@ pub struct CreateScopeRequest {
 #[serde(rename_all = "camelCase")]
 pub struct CreateScopeResponse {
     pub id: Uuid,
-    pub name: String,
+    pub username: String,
 }

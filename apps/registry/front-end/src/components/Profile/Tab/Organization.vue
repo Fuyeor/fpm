@@ -22,9 +22,10 @@
       <OptionItemCard
         v-for="item in organizations"
         :key="item.id"
-        icon-text="Scope"
-        :item-name="'@' + item.name"
+        :item-name="'@' + item.username"
         :item-status="t('role.' + item.role)"
+        :created-at="item.createdAt"
+        @click="organizationProfile(item.username)"
       />
     </ul>
   </div>
@@ -36,6 +37,7 @@
 import CreateOrganizationModal from '../Modal/CreateOrganizationModal.vue';
 
 import { ref, toRef } from 'vue';
+import { useRouter } from '@fuyeor/vue-router';
 import { useLocale } from '@fuyeor/locale';
 import { getIconUrl } from '@fuyeor/commons';
 import { StateDisplay, OptionItemCard } from '@fuyeor/interactify';
@@ -50,6 +52,7 @@ const props = defineProps<{
 const { t } = useLocale();
 const { checkIsCurrentUser } = useAuth();
 
+const router = useRouter();
 const usernameRef = toRef(props.user, 'username');
 
 const {
@@ -65,5 +68,9 @@ const showModal = ref(false);
 
 const openAddModal = () => {
   showModal.value = true;
+};
+
+const organizationProfile = (username: string) => {
+  router.push({ name: 'Organization', params: { username: username } });
 };
 </script>

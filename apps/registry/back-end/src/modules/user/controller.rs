@@ -45,8 +45,9 @@ pub async fn get_me(
         if let Some(org) = org_opt {
             mapped_orgs.push(UserOrganizationDto {
                 id: org.id,
-                name: org.name,
+                username: org.username,
                 role: member.role,
+                created_at: member.created_at,
             });
         }
     }
@@ -121,8 +122,9 @@ pub async fn get_user_organizations(
         if let Some(org) = org_opt {
             mapped_orgs.push(UserOrganizationDto {
                 id: org.id,
-                name: org.name,
+                username: org.username,
                 role: member.role,
+                created_at: member.created_at,
             });
         }
     }

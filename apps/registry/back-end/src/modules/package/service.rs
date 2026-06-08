@@ -41,7 +41,7 @@ pub async fn acquire_upload(
 
     // 2. Check permissions
     let org = Organization::find()
-        .filter(organization::Column::Name.eq(scope_name))
+        .filter(organization::Column::Username.eq(scope_name))
         .one(db)
         .await
         .unwrap()
@@ -128,7 +128,7 @@ pub async fn commit_upload(
         None => {
             let scope_name = &session.package_name.split('/').collect::<Vec<&str>>()[0][1..];
             let org = Organization::find()
-                .filter(organization::Column::Name.eq(scope_name))
+                .filter(organization::Column::Username.eq(scope_name))
                 .one(db)
                 .await
                 .unwrap()

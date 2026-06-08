@@ -18,6 +18,14 @@ const FORBIDDEN_SCOPES: &[&str] = &[
     "deno",
     "author",
     "user",
+    "username",
+    "mention",
+    "owner",
+    "team",
+    "group",
+    "org",
+    "organization",
+    "scope",
     "maintainer",
     "npm",
     "pnpm",
@@ -45,7 +53,7 @@ pub async fn check_scope_availability(
     if !re.is_match(&lowercased) {
         return Ok(ScopeValidationResponse {
             available: false,
-            message: "scope.invalid.format".into(),
+            message: "username.invalid.format".into(),
         });
     }
 
@@ -76,7 +84,7 @@ pub async fn check_scope_availability(
 
     // 4. 重名校验 (查库)
     let exists = Organization::find()
-        .filter(organization::Column::Name.eq(&lowercased))
+        .filter(organization::Column::Username.eq(&lowercased))
         .one(db)
         .await
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
@@ -121,7 +129,7 @@ pub async fn create_scope(
     // 插入 organization 表
     let org_model = organization::ActiveModel {
         id: Set(org_id),
-        name: Set(lowercased.clone()),
+        username: Set(lowercased.clone()),
         ..Default::default()
     };
     org_model
@@ -134,6 +142,7 @@ pub async fn create_scope(
         organization_id: Set(org_id),
         user_id: Set(user_id),
         role: Set("admin".to_string()),
+        created_at: Set(chrono::Utc::now().into()),
     };
     member_model
         .insert(&txn)
@@ -147,6 +156,6 @@ pub async fn create_scope(
 
     Ok(CreateScopeResponse {
         id: org_id,
-        name: lowercased,
+        username: lowercased,
     })
 }

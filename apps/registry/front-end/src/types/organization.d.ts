@@ -5,7 +5,7 @@
  */
 export interface CheckScopeRequest {
   /** The lower-case scope name, e.g., 'fuyeor' */
-  name: string;
+  username: string;
 }
 
 /**
@@ -22,8 +22,8 @@ export interface ScopeValidationResponse {
  * Request payload to register a new Scope (Organization)
  */
 export interface CreateScopeRequest {
-  /** The desired scope name, e.g., 'webroamer' */
-  name: string;
+  /** The desired scope username, e.g., 'webroamer' */
+  username: string;
 }
 
 /**
@@ -32,6 +32,6 @@ export interface CreateScopeRequest {
 export interface CreateScopeResponse {
   /** UUID v7 of the created organization */
   id: string;
-  /** Confirmed scope name */
-  name: string;
+  /** Confirmed scope username */
+  username: string;
 }

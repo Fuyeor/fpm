@@ -108,6 +108,7 @@ const appRoutes: Array<RouteRecord> = [
         // fpm.fuyeor.com/options/tokens
         path: 'tokens',
         name: 'Option.Token',
+        component: () => import('@/views/Options/Tokens.vue'),
       },
     ],
   },

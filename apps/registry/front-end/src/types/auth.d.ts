@@ -17,6 +17,12 @@ export interface SigninResponse {
   user: EmbeddedUser;
 }
 
+export interface UserToken {
+  id: string;
+  name: string;
+  createdAt: string;
+}
+
 /**
  * Request payload to create a CLI token
  */

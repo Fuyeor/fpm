@@ -28,17 +28,19 @@ export interface UserOrganization {
   /** Organization UUID */
   id: string;
   /** Scope name, e.g., 'fuyeor' */
-  name: string;
+  username: string;
   /** Role in this scope: 'admin' | 'publisher' */
   role: string;
+  /** ISO timestamp of when the user joined this organization */
+  createdAt: string;
 }
 
 export interface UserPackage {
   id: string;
   name: string;
   fullName: string;
-  description?: string ;
-  createdAt: string; 
+  description?: string;
+  createdAt: string;
 }
 
 /**

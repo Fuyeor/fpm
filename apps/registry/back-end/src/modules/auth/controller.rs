@@ -110,7 +110,6 @@ pub async fn refresh(
     Ok((updated_jar, Json(res)))
 }
 
-/// Create a personal access token for CLI
 #[utoipa::path(
     post,
     path = "/auth/token",
@@ -119,6 +118,7 @@ pub async fn refresh(
     tag = "Auth",
     security(("token" = []))
 )]
+/// Create a personal access token for CLI
 pub async fn create_token(
     State(db): State<DatabaseConnection>,
     user: CurrentUser,
@@ -127,6 +127,43 @@ pub async fn create_token(
     service::create_token(&db, user.id, payload.name)
         .await
         .map(Json)
+}
+
+#[utoipa::path(
+    get,
+    path = "/auth/tokens",
+    responses((status = 200, body = Vec<UserTokenDto>)),
+    tag = "Auth",
+    security(("token" = []))
+)]
+/// List all personal access tokens
+pub async fn list_tokens(
+    State(db): State<DatabaseConnection>,
+    user: CurrentUser,
+) -> Result<Json<Vec<UserTokenDto>>, (StatusCode, String)> {
+    service::list_tokens(&db, user.id)
+        .await
+        .map(Json)
+        .map_err(|s| (s, "Failed to list tokens".into()))
+}
+
+#[utoipa::path(
+    delete,
+    path = "/auth/tokens/{id}",
+    responses((status = 204, description = "Token revoked")),
+    tag = "Auth",
+    security(("token" = []))
+)]
+/// Revoke a personal access token
+pub async fn revoke_token(
+    State(db): State<DatabaseConnection>,
+    user: CurrentUser,
+    axum::extract::Path(id): axum::extract::Path<uuid::Uuid>,
+) -> Result<StatusCode, (StatusCode, String)> {
+    service::revoke_token(&db, user.id, id)
+        .await
+        .map(|_| StatusCode::NO_CONTENT)
+        .map_err(|s| (s, "Failed to revoke token".into()))
 }
 
 fn make_cookie(

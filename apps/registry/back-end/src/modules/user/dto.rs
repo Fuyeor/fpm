@@ -18,8 +18,9 @@ pub struct EmbeddedUserDto {
 #[serde(rename_all = "camelCase")]
 pub struct UserOrganizationDto {
     pub id: Uuid,
-    pub name: String,
+    pub username: String,
     pub role: String,
+    pub created_at: sea_orm::prelude::DateTimeWithTimeZone,
 }
 
 /// Response schema for the "Get My Session" API, containing user info and their organizations

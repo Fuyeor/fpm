@@ -85,10 +85,10 @@ const orgNavItems = computed<SidebarItem[]>(() => {
     type: 'link',
     tag: 'router-link',
     linkProps: {
-      to: `/organization/@${org.name}`,
+      to: `/organization/@${org.username}`,
     },
     icon: getIconUrl('email'),
-    text: `@${org.name}`,
+    text: `@${org.username}`,
   }));
 });
 </script>

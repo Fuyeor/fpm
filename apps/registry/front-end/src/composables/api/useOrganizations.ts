@@ -1,11 +1,11 @@
 // src/composables/api/useOrganizations.ts
 import { useMutation, useQueryClient } from '@fuyeor/vue-query';
 import { validateScope, createOrganization } from '@/api/organizations';
-import type { 
-  CheckScopeRequest, 
-  CreateScopeRequest, 
-  ScopeValidationResponse, 
-  CreateScopeResponse 
+import type {
+  CheckScopeRequest,
+  CreateScopeRequest,
+  ScopeValidationResponse,
+  CreateScopeResponse,
 } from '@/types/organization';
 
 /**
@@ -19,19 +19,26 @@ export function useOrganizations() {
    * Mutation to validate if a scope name is available.
    * Directly passes validateScope thanks to automated API unwrapping!
    */
-  const validateScopeMutation = useMutation<ScopeValidationResponse, Error, CheckScopeRequest>({
-    mutationFn: validateScope, // ✨ 直接传递函数，极其环保，没有任何套娃
+  const validateScopeMutation = useMutation<
+    ScopeValidationResponse,
+    Error,
+    CheckScopeRequest
+  >({
+    mutationFn: validateScope,
   });
 
   /**
    * Mutation to create a new Scope (Organization).
    */
-  const createOrganizationMutation = useMutation<CreateScopeResponse, Error, CreateScopeRequest>({
-    mutationFn: createOrganization, // ✨ 同样直接传递
-    onSuccess: (data) => {
+  const createOrganizationMutation = useMutation<
+    CreateScopeResponse,
+    Error,
+    CreateScopeRequest
+  >({
+    mutationFn: createOrganization,
+    onSuccess: () => {
       // 成功后自动失效缓存，触发全局重新拉取
       queryClient.invalidateQueries({ queryKey: ['user', 'organizations'] });
-      console.log(`[Vue Query] Organization '${data.name}' created.`);
     },
   });
 

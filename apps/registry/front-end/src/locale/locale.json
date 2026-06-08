@@ -1,4 +1,16 @@
 {
+  "expired.at": {
+    "ar": "انتهت صلاحيته في",
+    "de": "Abgelaufen am",
+    "en": "Expired at",
+    "es": "Expiró el",
+    "fr": "Expiré le",
+    "ja": "失効日:",
+    "ko": "만료일:",
+    "pt": "Expirou em",
+    "ru": "Истёк",
+    "zh-hans": "过期于"
+  },
   "intro.desc": {
     "ar": "انشر حزم الويب ودرها وثبتها مثل JavaScript و CSS والمزيد باستخدام fpm.",
     "de": "Veröffentliche, verwalte und installiere Web-Bibliotheken wie JavaScript, CSS und mehr mit fpm.",
@@ -83,6 +95,18 @@
     "ru": "Создать организацию",
     "zh-hans": "新建组织"
   },
+  "organization.name": {
+    "ar": "اسم机构",
+    "de": "Organisations-Benutzername",
+    "en": "Organization Username",
+    "es": "Nombre de usuario de la organización",
+    "fr": "Nom d'utilisateur de l'organisation",
+    "ja": "組織ユーザー名",
+    "ko": "조직 사용자 이름",
+    "pt": "Nome de usuário da organização",
+    "ru": "Имя пользователя организации",
+    "zh-hans": "组织用户名"
+  },
   "organizations": {
     "ar": "المؤسسات",
     "de": "Organisationen",
@@ -155,6 +179,54 @@
     "ru": "Поиск пакетов или пользователей...",
     "zh-hans": "搜索包或用户..."
   },
+  "settings.account": {
+    "ar": "حسابي",
+    "de": "Mein Konto",
+    "en": "My Account",
+    "es": "Mi cuenta",
+    "fr": "Mon compte",
+    "ja": "マイアカウント",
+    "ko": "내 계정",
+    "pt": "Minha conta",
+    "ru": "Мой аккаунт",
+    "zh-hans": "我的账号"
+  },
+  "settings.account.desc": {
+    "ar": "إدارة إعدادات الحساب",
+    "de": "Kontoeinstellungen verwalten",
+    "en": "Manage account settings",
+    "es": "Administrar la configuración de la cuenta",
+    "fr": "Gérer les paramètres du compte",
+    "ja": "アカウント設定の管理",
+    "ko": "계정 설정 관리",
+    "pt": "Gerenciar configurações da conta",
+    "ru": "Управление настройками аккаунта",
+    "zh-hans": "管理账号设置"
+  },
+  "settings.tokens": {
+    "ar": "إدارة الرموز",
+    "de": "Tokens verwalten",
+    "en": "Manage Tokens",
+    "es": "Administrar tokens",
+    "fr": "Gérer les jetons",
+    "ja": "トークンの管理",
+    "ko": "토큰 관리",
+    "pt": "Gerenciar tokens",
+    "ru": "Управление токенами",
+    "zh-hans": "管理令牌"
+  },
+  "settings.tokens.desc": {
+    "ar": "إنشاء الرموز النشطة وعرضها وإدارتها",
+    "de": "Aktive Tokens erstellen, anzeigen und verwalten",
+    "en": "Create, view, and manage active tokens",
+    "es": "Crear, ver y administrar tokens activos",
+    "fr": "Créer, afficher et gérer les jetons actifs",
+    "ja": "アクティブなトークンの作成、表示、および管理",
+    "ko": "활성 토큰 생성, 조회 및 관리",
+    "pt": "Criar, visualizar e gerenciar tokens ativos",
+    "ru": "Создание, просмотр и управление активными токенами",
+    "zh-hans": "创建、查看及管理活跃的令牌"
+  },
   "site.name": {
     "ar": "fpm",
     "de": "fpm",
@@ -178,5 +250,125 @@
     "pt": "Um gestor de desenvolvimento web autônomo para nómadas da rede",
     "ru": "Автономный менеджер веб-разработки для сетевых странников",
     "zh-hans": "纯粹、自治。为网络漫游者打造的 Web 包管理器"
+  },
+  "token.create.expire": {
+    "ar": "تاريخ الانتهاء",
+    "de": "Ablaufdatum",
+    "en": "Expiration",
+    "es": "Fecha de expiración",
+    "fr": "Date d'expiration",
+    "ja": "有効期限",
+    "ko": "만료일",
+    "pt": "Data de expiração",
+    "ru": "Срок действия",
+    "zh-hans": "过期时间"
+  },
+  "token.create.name": {
+    "ar": "اسم الرمز",
+    "de": "Token-Name",
+    "en": "Token Name",
+    "es": "Nombre del token",
+    "fr": "Nom du jeton",
+    "ja": "トークン名",
+    "ko": "토큰 이름",
+    "pt": "Nome do token",
+    "ru": "Имя токена",
+    "zh-hans": "令牌名称"
+  },
+  "token.create.name.desc": {
+    "ar": "يمكن أن يساعدك الاسم في تذكر الغرض من هذا الرمز.",
+    "de": "Der Name hilft Ihnen, sich an den Zweck dieses Tokens zu erinnern.",
+    "en": "The name can help you remember the purpose of this token.",
+    "es": "El nombre puede ayudarte a recordar el propósito de este token.",
+    "fr": "Le nom peut vous aider à vous rappeler l'utilité de ce jeton.",
+    "ja": "名前は、このトークンの目的を思い出すのに役立ちます。",
+    "ko": "이름은 이 토큰의 용도를 기억하는 데 도움이 됩니다.",
+    "pt": "O nome pode ajudar você a se lembrar da finalidade deste token.",
+    "ru": "Имя поможет вам запомнить назначение этого токена.",
+    "zh-hans": "名称可以帮助您记住此令牌的用途。"
+  },
+  "token.new": {
+    "ar": "إنشاء رمز جديد",
+    "de": "Neuen Token erstellen",
+    "en": "Create Token",
+    "es": "Crear token",
+    "fr": "Créer un jeton",
+    "ja": "トークンを作成",
+    "ko": "토큰 생성",
+    "pt": "Criar token",
+    "ru": "Создать токен",
+    "zh-hans": "创建令牌"
+  },
+  "token.permission": {
+    "ar": "صلاحيات الرمز",
+    "de": "Token-Berechtigungen",
+    "en": "Token Permissions",
+    "es": "Permisos del token",
+    "fr": "Autorisations du jeton",
+    "ja": "トークン権限",
+    "ko": "토큰 권한",
+    "pt": "Permissões do token",
+    "ru": "Разрешения токена",
+    "zh-hans": "令牌权限"
+  },
+  "token.secret.tip": {
+    "ar": "يرجى حفظ رمز العميل هذا، فلن يتم عرضه مرة أخرى.",
+    "de": "Bitte speichern Sie diesen Client-Token, er wird nicht noch einmal angezeigt.",
+    "en": "Please save this client token; it will not be displayed again.",
+    "es": "Por favor, guarde este token de cliente, ya que no se volverá a mostrar.",
+    "fr": "Veuillez enregistrer ce jeton de client, il ne sera plus affiché.",
+    "ja": "このクライアントトークンを保存してください。再度表示されることはありません。",
+    "ko": "이 클라이언트 토큰을 저장해 주세요. 다시 표시되지 않습니다.",
+    "pt": "Por favor, salve este token de cliente, pois ele não será exibido novamente.",
+    "ru": "Пожалуйста, сохраните этот клиентский токен, он больше не будет показан.",
+    "zh-hans": "请保存此客户端令牌，系统不会再次显示。"
+  },
+  "username.hint": {
+    "ar": "من 4 إلى 20 حرفًا، ويُسمح فقط بالأحرف الإنجليزية الصغيرة أو الأرقام أو الشرطات.",
+    "de": "4-20 Zeichen, nur englische Kleinbuchstaben, Zahlen oder Bindestriche erlaubt.",
+    "en": "4-20 characters, only lowercase English letters, numbers, or hyphens allowed.",
+    "es": "4-20 caracteres, solo se permiten letras inglesas minúsculas, números o guiones.",
+    "fr": "4-20 caractères, seules les lettres anglaises minuscules, les chiffres ou les traits d'union sont autorisés.",
+    "ja": "4〜20文字。英小文字、数字、またはハイフンのみが使用できます。",
+    "ko": "4-20자, 영문 소문자, 숫자 또는 하이픈만 허용됩니다.",
+    "pt": "4-20 caracteres, apenas letras inglesas minúsculas, números ou hífens permitidos.",
+    "ru": "От 4 до 20 символов, разрешены только строчные английские буквы, цифры или дефисы.",
+    "zh-hans": "4-20 字符、仅允许英文小写、数字或连字符。"
+  },
+  "username.invalid.format": {
+    "ar": "يمكن أن يحتوي اسم المستخدم فقط على الأحرف اللاتينية الأساسية أو الأرقام أو الشرطات",
+    "de": "Der Benutzername darf nur lateinische Basisbuchstaben, Zahlen oder Bindestriche enthalten",
+    "en": "Username can only contain basic Latin letters, numbers, or hyphens",
+    "es": "El nombre de usuario solo puede contener letras latinas básicas, números o guiones",
+    "fr": "Le nom d'utilisateur ne peut contenir que des lettres latines de base, des chiffres ou des traits d'union",
+    "ja": "ユーザー名は、基本ラテン文字、数字、またはハイフンのみを含めることができます",
+    "ko": "사용자 이름에는 기본 라틴 문자, 숫자 또는 하이픈만 포함할 수 있습니다",
+    "pt": "O nome de usuário pode conter apenas letras latinas básicas, números ou hífens",
+    "ru": "Имя пользователя может содержать только базовые латинские буквы, цифры или дефисы",
+    "zh-hans": "用户名仅能包含基础拉丁字母、数字或连字符"
+  },
+  "username.invalid.length": {
+    "ar": "يجب أن يكون اسم المستخدم بين 4 و20 حرفًا",
+    "de": "Benutzername muss zwischen 4 und 20 Zeichen lang sein",
+    "en": "Username must be between 4 and 20 characters",
+    "es": "El nombre de usuario debe tener entre 4 y 20 caracteres",
+    "fr": "Le nom d'utilisateur doit comporter entre 4 et 20 caractères",
+    "ja": "ユーザー名は4〜20文字である必要があります",
+    "ko": "사용자명은 4~20자여야 합니다",
+    "pt": "Nome de usuário deve ter entre 4 e 20 caracteres",
+    "ru": "Имя пользователя должно быть от 4 до 20 символов",
+    "zh-hans": "用户名必须于 4-20 字符之间"
+  },
+  "username.invalid.taken": {
+    "ar": "هذا اسم المستخدم مستخدم بالفعل",
+    "de": "Dieser Benutzername ist bereits vergeben",
+    "en": "This username is already taken",
+    "es": "Este nombre de usuario ya está en uso",
+    "fr": "Ce nom d'utilisateur est déjà utilisé",
+    "ja": "このユーザー名はすでに使われています",
+    "ko": "이 사용자명은 이미 사용 중입니다",
+    "pt": "Este nome de usuário já está em uso",
+    "ru": "Это имя пользователя уже занято",
+    "zh-hans": "此用户名已被占用"
   }
 }

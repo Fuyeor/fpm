@@ -13,25 +13,28 @@
       :label="t('organization.name')"
       :hint="validationHint"
       :error="validationErrorMsg || creationErrorMsg"
+      :tip="t('username.hint')"
     >
       <input
         type="text"
         v-model="scopeName"
         @input="handleInput"
-        :placeholder="t('organization.name.placeholder')"
         :disabled="isCreating"
-        class="fpm-input"
       />
       <span v-if="isValidating" class="spinner-icon">⏳</span>
     </FormField>
 
     <template #footer>
-      <div class="modal-footer">
-        <button class="btn-cancel" @click="closeModal" :disabled="isCreating">
+      <div class="modal-actions">
+        <button
+          class="btn-secondary"
+          @click="closeModal"
+          :disabled="isCreating"
+        >
           {{ t('cancel') }}
         </button>
         <button
-          class="btn-submit"
+          class="btn-primary"
           @click="handleCreate"
           :disabled="!isAvailable || isCreating || isValidating"
         >
@@ -96,18 +99,18 @@ const closeModal = () => {
 
 const handleInput = () => {
   if (debounceTimer) clearTimeout(debounceTimer);
-  const name = scopeName.value.trim();
-  if (!name) return;
+  const username = scopeName.value.trim();
+  if (!username) return;
 
   debounceTimer = setTimeout(() => {
-    validateScope({ name });
+    validateScope({ username });
   }, 400);
 };
 
 const handleCreate = async () => {
   if (!isAvailable.value || isCreating.value) return;
   try {
-    await createOrganization({ name: scopeName.value.trim() });
+    await createOrganization({ username: scopeName.value.trim() });
     closeModal();
   } catch (err) {
     console.error('[Organization] Create failed:', err);
@@ -120,31 +123,6 @@ const handleCreate = async () => {
   position: absolute;
   right: 10px;
   animation: spin 1s linear infinite;
-}
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 1rem;
-}
-.btn-submit {
-  background: #007aff;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.btn-submit:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-}
-.btn-cancel {
-  background: transparent;
-  border: 1px solid #ccc;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
 }
 @keyframes spin {
   0% {

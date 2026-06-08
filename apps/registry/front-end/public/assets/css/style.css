@@ -85,3 +85,14 @@ h3:after {
   flex-shrink: 0;
   object-fit: cover;
 }
+
+.organization-tab-container {
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.clients-list {
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+}

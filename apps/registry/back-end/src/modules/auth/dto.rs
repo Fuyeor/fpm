@@ -29,6 +29,15 @@ pub struct SigninResponse {
     pub user: UserDto,
 }
 
+/// Token metadata shown in the Web UI
+#[derive(Serialize, ToSchema)]
+#[serde(rename_all = "camelCase")]
+pub struct UserTokenDto {
+    pub id: Uuid,
+    pub name: String,
+    pub created_at: chrono::DateTime<chrono::FixedOffset>,
+}
+
 /// Request payload for generating a CLI token
 #[derive(Deserialize, ToSchema)]
 #[serde(rename_all = "camelCase")]
