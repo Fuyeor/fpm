@@ -106,9 +106,9 @@ import {
   StateDisplay,
   FormField,
   Modal,
-  OptionItemCard,
-  CopyClipboard,
 } from '@fuyeor/interactify';
+import OptionItemCard from '@/components/Option/OptionItemCard.vue';
+import CopyClipboard from '@/components/Shared/CopyClipboard.vue';
 import {
   useCreateTokenMutation,
   useTokensQuery,

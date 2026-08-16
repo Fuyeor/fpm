@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { useLocale } from '@fuyeor/locale';
-import { OptionItem } from '@fuyeor/interactify';
+import OptionItem from './OptionItem.vue';
 import { useAuth } from '@/composables/auth/useAuth';
 import type { OptionMenu, MenuItem } from '@/types/options/options-menu';
 

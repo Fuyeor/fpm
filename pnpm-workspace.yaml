@@ -1,6 +1,8 @@
 # /pnpm-workspace.yaml
 packages:
   - "apps/registry/front-end"
+  - "packages/cli"
+
   - "packages/prisma"
   - "../monorepo/packages/interactify"
   - "../monorepo/packages/vue-router"
@@ -8,3 +10,10 @@ packages:
   - "../monorepo/packages/commons"
   - "../monorepo/packages/locale"
   - "../monorepo/packages/config"
+
+allowBuilds:
+  '@prisma/client': true
+  '@prisma/engines': true
+  esbuild: true
+  prisma: true
+  vue-demi: true

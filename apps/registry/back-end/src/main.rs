@@ -1,6 +1,7 @@
 // src/main.rs
 mod config;
 mod entities;
+mod health;
 mod modules;
 mod services;
 mod utils;
@@ -79,7 +80,7 @@ async fn main() {
         .route("/auth/refresh-token", post(auth::refresh))
         .route("/auth/token", post(auth::create_token))
         .route("/auth/tokens", get(auth::list_tokens))
-        .route("/auth/tokens/{id}", delete(auth::revoke_token))
+        .route("/auth/tokens/:id", delete(auth::revoke_token))
         // User Routes
         .route("/users/me", get(user::get_me))
         .route("/users/:username", get(user::get_user_profile))
@@ -94,9 +95,14 @@ async fn main() {
             post(organization::validate_scope),
         )
         .route("/organizations", post(organization::create_organization))
-        // Package Routes
+        // Package publishing routes
         .route("/packages/acquire", post(package::acquire_upload))
         .route("/packages/commit", post(package::commit_upload))
+        // Public npm-compatible metadata routes
+        .route("/:package_name", get(package::get_metadata))
+        .route("/:scope/:name", get(package::get_metadata_parts))
+        // Process liveness probe; nginx exposes this as /v1/health
+        .route("/health", get(health::health))
         .merge(SwaggerUi::new("/docs").url("/docs/openapi.json", openapi))
         .with_state(state);
 

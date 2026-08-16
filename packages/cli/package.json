@@ -1,0 +1,34 @@
+{
+  "name": "@fuyeor/fpm-cli",
+  "version": "0.1.0",
+  "description": "FPM public registry source package publisher",
+  "license": "MIT",
+  "author": "Manus AI <bot+manus@fuyeor.com>",
+  "type": "module",
+  "bin": {
+    "fpm": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:e2e": "npx --yes pnpm@11.22.0 build && node test/publish.e2e.mjs && node test/pnpm-install.e2e.mjs"
+  },
+  "engines": {
+    "node": ">=24.19.0"
+  },
+  "dependencies": {
+    "ignore": "^7.0.5",
+    "semver": "^7.7.2",
+    "tar-stream": "^3.1.7"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.4",
+    "@types/semver": "^7.7.1",
+    "@types/tar-stream": "^3.1.4",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.7"
+  }
+}
