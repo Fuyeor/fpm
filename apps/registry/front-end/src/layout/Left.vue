@@ -88,7 +88,7 @@ const orgNavItems = computed<SidebarItem[]>(() => {
       to: `/organization/@${org.username}`,
     },
     icon: getIconUrl('email'),
-    text: `@${org.username}`,
+    text: org.username,
   }));
 });
 </script>

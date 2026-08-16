@@ -8,7 +8,7 @@ export function useMenuConfig() {
 
   const signedOutNavItemsRaw: SidebarItemConfig[] = [
     {
-      target: '/welcome',
+      target: '/',
       icon: getIconUrl('home'),
       textKey: 'home',
     },

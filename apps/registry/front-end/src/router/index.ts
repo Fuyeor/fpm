@@ -25,7 +25,7 @@ const appRoutes: Array<RouteRecord> = [
   },
   {
     // fpm.fuyeor.com/
-    path: '{/:tab}?',
+    path: '',
     name: 'Home',
     component: () => import('@/views/Home.vue'),
     meta: {

@@ -53,12 +53,24 @@ async fn main() {
     let db = sea_orm::Database::connect(&config.database_url)
         .await
         .unwrap();
-    let s3_config = aws_config::defaults(aws_config::BehaviorVersion::latest()) // 使用最新的行为版本
+    // create Credentials
+    let credentials = aws_sdk_s3::config::Credentials::new(
+        &config.r2_access_key_id,
+        &config.r2_secret_access_key,
+        None,
+        None,
+        "static",
+    );
+
+    // inject Credentials into S3 configs
+    let s3_config = aws_sdk_s3::Config::builder()
+        .behavior_version_latest()
         .endpoint_url(&config.r2_endpoint)
         .region(aws_sdk_s3::config::Region::new("auto"))
-        .load()
-        .await;
-    let s3_client = aws_sdk_s3::Client::new(&s3_config);
+        .credentials_provider(credentials)
+        .build();
+
+    let s3_client = aws_sdk_s3::Client::from_conf(s3_config);
 
     let state = AppState {
         db,

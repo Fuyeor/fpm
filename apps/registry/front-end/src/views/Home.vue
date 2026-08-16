@@ -63,11 +63,9 @@ const { isAuthenticated, currentUser } = useAuth();
 const handleLocaleChange = (newLocale: string) => {
   // 使用 replace 替换当前的 locale 参数
   router.replace({
-    name: route.name as string,
-    params: {
-      locale: newLocale, // 路由会自动生成 /ja/signin
-    },
-    query: route.query,
+    name: route.name,
+    // 路由会自动生成 /ja/signin
+    params: { locale: newLocale },
   });
 };
 
