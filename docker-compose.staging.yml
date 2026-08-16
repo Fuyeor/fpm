@@ -1,0 +1,12 @@
+# /docker-compose.staging.yml
+services:
+  fpm-registry:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: fuyeor/fpm-registry:staging
+    env_file:
+      - .env.staging
+    ports:
+      - "6011:6011"
+    restart: unless-stopped

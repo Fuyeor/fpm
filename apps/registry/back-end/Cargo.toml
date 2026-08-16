@@ -21,6 +21,9 @@ utoipa = { version = "4", features = ["uuid"] }
 utoipa-swagger-ui = { version = "6", features = ["axum"] }
 chrono = { version = "0.4", features = ["serde"] }
 hex = "0.4.3"
+base64 = "0.22"
+semver = "1"
+percent-encoding = "2"
 rand = "0.10.1"
 aws-config = "1.8.16"
 aws-sdk-s3 = "1.131.0"
