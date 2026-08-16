@@ -1,0 +1,58 @@
+# Dockerfile.frontend
+# Build the Vite frontend with the private shared monorepo workspace.
+FROM node:24-slim AS builder
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable
+
+WORKDIR /app
+
+# Copy workspace manifests first so dependency installation remains cacheable.
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./fpm/
+COPY apps/registry/front-end/package.json ./fpm/apps/registry/front-end/
+COPY packages/cli/package.json ./fpm/packages/cli/
+COPY packages/prisma/package.json ./fpm/packages/prisma/
+COPY monorepo/package.json monorepo/pnpm-lock.yaml monorepo/pnpm-workspace.yaml ./monorepo/
+COPY monorepo/packages/commons/package.json ./monorepo/packages/commons/
+COPY monorepo/packages/config/package.json ./monorepo/packages/config/
+COPY monorepo/packages/interactify/package.json ./monorepo/packages/interactify/
+COPY monorepo/packages/locale/package.json ./monorepo/packages/locale/
+COPY monorepo/packages/vue-query/package.json ./monorepo/packages/vue-query/
+COPY monorepo/packages/vue-router/package.json ./monorepo/packages/vue-router/
+
+# Install the complete workspace dependency graph using BuildKit's persistent pnpm store.
+RUN --mount=type=cache,id=fpm-pnpm-store,target=/pnpm/store \
+    cd /app/fpm && pnpm install --frozen-lockfile
+
+# Copy application and shared workspace sources only after dependencies are cached.
+COPY apps/ ./fpm/apps/
+COPY packages/ ./fpm/packages/
+COPY monorepo/packages/ ./monorepo/packages/
+
+# Build the production SPA from the fpm workspace root.
+RUN cd /app/fpm && pnpm --filter @fuyeor/fpm-front-end build
+
+# Serve the static SPA with a small Nginx runtime image.
+FROM nginx:alpine AS runner
+
+RUN rm -rf /usr/share/nginx/html/*
+
+COPY --from=builder /app/fpm/apps/registry/front-end/dist/ /usr/share/nginx/html/
+
+# Keep API requests on the same origin and support client-side routing.
+RUN printf '%s\n' \
+    'server {' \
+    '    listen 80;' \
+    '    server_name localhost;' \
+    '    root /usr/share/nginx/html;' \
+    '    include mime.types;' \
+    '    index index.html;' \
+    '    location / { try_files $uri $uri/ /index.html; }' \
+    '}' \
+    > /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
