@@ -17,11 +17,15 @@
     "@fuyeor/locale": "^1.0.0",
     "@fuyeor/vue-query": "^1.0.0",
     "@fuyeor/vue-router": "^1.0.0",
+    "@fuyeor/vue-vaul": "^0.4.6",
     "vue": "^3.5.34"
   },
   "devDependencies": {
     "@fuyeor/tsconfig": "1.0.0",
+    "@vitejs/plugin-vue": "^6.0.7",
     "@types/node": "^24.12.4",
+    "html-minifier-terser": "^7.2.0",
+    "lightningcss": "^1.32.0",
     "typescript": "^6.0.3",
     "vite": "8.0.1"
   }

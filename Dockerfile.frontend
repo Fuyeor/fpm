@@ -1,5 +1,5 @@
-# Dockerfile.frontend
-# Build the Vite frontend with the private shared monorepo workspace.
+# /Dockerfile.frontend
+# Build the Vite frontend from published private registry packages.
 FROM node:24-slim AS builder
 
 ENV PNPM_HOME="/pnpm"
@@ -12,16 +12,21 @@ WORKDIR /app
 # Copy workspace manifests first so dependency installation remains cacheable.
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY apps/registry/front-end/package.json ./apps/registry/front-end/
-COPY packages/cli/package.json ./packages/cli/
-COPY packages/prisma/package.json ./packages/prisma/
 
-# Install the complete workspace dependency graph using BuildKit's persistent pnpm store.
+# Install published dependencies with a BuildKit-only registry credential.
 RUN --mount=type=cache,id=fpm-pnpm-store,target=/pnpm/store \
-    pnpm install --frozen-lockfile
+    --mount=type=secret,id=fpm_registry_token,required \
+    set -eu; \
+    auth_file="$(mktemp)"; \
+    trap 'rm -f "$auth_file"' EXIT; \
+    printf '%s\n' \
+        '@fuyeor:registry=https://fpm.fuyeor.com/v1/' \
+        "//fpm.fuyeor.com/v1/:_authToken=$(cat /run/secrets/fpm_registry_token)" \
+        > "$auth_file"; \
+    pnpm install --frozen-lockfile --config.userconfig="$auth_file"
 
-# Copy application and shared workspace sources only after dependencies are cached.
+# Copy application sources only after dependencies are cached.
 COPY apps/ ./apps/
-COPY packages/ ./packages/
 
 # Build the production SPA from the fpm workspace root.
 RUN pnpm --filter @fuyeor/fpm-front-end build
