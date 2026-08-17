@@ -161,8 +161,13 @@ export async function packPackage(directory: string): Promise<PackedPackage> {
   const candidates = await collectFiles(root);
   const files = candidates.filter((filePath) => {
     if (filePath === '.gitignore' || filePath.startsWith('.git/') || filePath.startsWith('node_modules/')) return false;
-    if (gitignore.ignores(filePath)) return false;
-    if (declaredFiles && declaredFiles.length > 0 && filePath !== 'package.json' && !matchesExplicitFiles(filePath, declaredFiles)) return false;
+    const matchesDeclaredFiles = declaredFiles?.some((entry) => matchesExplicitFiles(filePath, [entry])) ?? false;
+    const overridesIgnore = declaredFiles?.some((entry) => {
+      const normalizedEntry = normalizePath(entry).replace(/\/$/, '');
+      return matchesExplicitFiles(filePath, [entry]) && gitignore.ignores(normalizedEntry);
+    }) ?? false;
+    if (gitignore.ignores(filePath) && !overridesIgnore) return false;
+    if (declaredFiles && declaredFiles.length > 0 && filePath !== 'package.json' && !matchesDeclaredFiles) return false;
     return true;
   });
   if (!files.includes('package.json')) files.unshift('package.json');
