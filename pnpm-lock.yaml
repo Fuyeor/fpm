@@ -51,8 +51,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0(vue@3.5.34(typescript@6.0.3))
       '@fuyeor/vue-vaul':
-        specifier: ^0.4.6
-        version: 0.4.6(vue@3.5.34(typescript@6.0.3))
+        specifier: ^0.4.7
+        version: 0.4.7(vue@3.5.34(typescript@6.0.3))
       vue:
         specifier: ^3.5.34
         version: 3.5.34(typescript@6.0.3)
@@ -220,8 +220,8 @@ packages:
     peerDependencies:
       vue: '*'
 
-  '@fuyeor/vue-vaul@0.4.6':
-    resolution: {integrity: sha256-XUwcVuYhkE4NwmVB9l4zi2KXjxukpkDBuFpqC1oiiho=, tarball: https://fpm.fuyeor.net/packages/@fuyeor/vue-vaul/0.4.6.tgz}
+  '@fuyeor/vue-vaul@0.4.7':
+    resolution: {integrity: sha256-PBRuNNo2H/Va4Gh5FI7eLwp5WedHb4d81UNHrSKX15E=, tarball: https://fpm.fuyeor.net/packages/@fuyeor/vue-vaul/0.4.7.tgz}
     peerDependencies:
       vue: ^3.4.0
 
@@ -1507,7 +1507,7 @@ snapshots:
       '@fuyeor/commons': 1.0.0(vue@3.5.34(typescript@6.0.3))
       '@fuyeor/locale': 1.0.0(vue@3.5.34(typescript@6.0.3))
       '@fuyeor/vue-router': 1.0.0(vue@3.5.34(typescript@6.0.3))
-      '@fuyeor/vue-vaul': 0.4.6(vue@3.5.34(typescript@6.0.3))
+      '@fuyeor/vue-vaul': 0.4.7(vue@3.5.34(typescript@6.0.3))
       markdown-it: 14.2.0
       photoswipe: 5.4.4
       vue: 3.5.34(typescript@6.0.3)
@@ -1528,7 +1528,7 @@ snapshots:
     dependencies:
       vue: 3.5.34(typescript@6.0.3)
 
-  '@fuyeor/vue-vaul@0.4.6(vue@3.5.34(typescript@6.0.3))':
+  '@fuyeor/vue-vaul@0.4.7(vue@3.5.34(typescript@6.0.3))':
     dependencies:
       reka-ui: 2.9.6(vue@3.5.34(typescript@6.0.3))
       vue: 3.5.34(typescript@6.0.3)
