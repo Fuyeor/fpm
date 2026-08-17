@@ -44,8 +44,6 @@ jobs:
           context: .
           file: ./Dockerfile.frontend
           push: true
-          secrets: |
-            fpm_registry_token=${{ secrets.FPM_REGISTRY_TOKEN }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ github.sha }}

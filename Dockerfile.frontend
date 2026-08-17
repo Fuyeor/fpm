@@ -1,5 +1,5 @@
 # /Dockerfile.frontend
-# Build the Vite frontend from published private registry packages.
+# Build the Vite frontend from publicly readable registry packages.
 FROM node:24-slim AS builder
 
 ENV PNPM_HOME="/pnpm"
@@ -13,17 +13,9 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY apps/registry/front-end/package.json ./apps/registry/front-end/
 
-# Install published dependencies with a BuildKit-only registry credential.
+# Install publicly readable dependencies from the configured registry.
 RUN --mount=type=cache,id=fpm-pnpm-store,target=/pnpm/store \
-    --mount=type=secret,id=fpm_registry_token,required \
-    set -eu; \
-    auth_file="$(mktemp)"; \
-    trap 'rm -f "$auth_file"' EXIT; \
-    printf '%s\n' \
-        '@fuyeor:registry=https://fpm.fuyeor.com/v1/' \
-        "//fpm.fuyeor.com/v1/:_authToken=$(cat /run/secrets/fpm_registry_token)" \
-        > "$auth_file"; \
-    pnpm install --frozen-lockfile --config.userconfig="$auth_file"
+    pnpm install --frozen-lockfile
 
 # Copy application sources only after dependencies are cached.
 COPY apps/ ./apps/
