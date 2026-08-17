@@ -10,8 +10,10 @@ RUN corepack enable
 WORKDIR /app
 
 # Copy workspace manifests first so dependency installation remains cacheable.
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc .localerc* ./
 COPY apps/registry/front-end/package.json ./apps/registry/front-end/
+COPY packages/cli/package.json ./packages/cli/
+COPY packages/prisma/package.json ./packages/prisma/
 
 # Install publicly readable dependencies from the configured registry.
 RUN --mount=type=cache,id=fpm-pnpm-store,target=/pnpm/store \
@@ -19,6 +21,9 @@ RUN --mount=type=cache,id=fpm-pnpm-store,target=/pnpm/store \
 
 # Copy application sources only after dependencies are cached.
 COPY apps/ ./apps/
+
+# Generate locale files for the front-end app
+RUN pnpm locale make registry --prod
 
 # Build the production SPA from the fpm workspace root.
 RUN pnpm --filter @fuyeor/fpm-front-end build

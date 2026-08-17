@@ -11,17 +11,16 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@fuyeor/commons": "^1.0.0",
-    "@fuyeor/config": "^1.0.1",
-    "@fuyeor/interactify": "^1.0.0",
-    "@fuyeor/locale": "^1.0.0",
-    "@fuyeor/vue-query": "^1.0.0",
-    "@fuyeor/vue-router": "^1.0.0",
-    "@fuyeor/vue-vaul": "^0.4.7",
+    "@fuyeor/commons": "^0.1.0",
+    "@fuyeor/config": "^0.1.1",
+    "@fuyeor/interactify": "^0.1.1",
+    "@fuyeor/locale": "^0.1.0",
+    "@fuyeor/vue-query": "^0.1.0",
+    "@fuyeor/vue-router": "^0.0.9",
     "vue": "^3.5.34"
   },
   "devDependencies": {
-    "@fuyeor/tsconfig": "1.0.0",
+    "@fuyeor/tsconfig": "0.1.0",
     "@types/node": "^24.12.4",
     "@vitejs/plugin-vue": "^6.0.7",
     "html-minifier-terser": "^7.2.0",

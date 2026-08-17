@@ -1,6 +1,8 @@
 # /pnpm-workspace.yaml
 packages:
-  - "apps/registry/front-end"
+  - 'apps/registry/front-end'
+  - 'packages/cli'
+  - 'packages/prisma'
 
 allowBuilds:
   '@prisma/client': true
