@@ -10,36 +10,28 @@ RUN corepack enable
 WORKDIR /app
 
 # Copy workspace manifests first so dependency installation remains cacheable.
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./fpm/
-COPY apps/registry/front-end/package.json ./fpm/apps/registry/front-end/
-COPY packages/cli/package.json ./fpm/packages/cli/
-COPY packages/prisma/package.json ./fpm/packages/prisma/
-COPY monorepo/package.json monorepo/pnpm-lock.yaml monorepo/pnpm-workspace.yaml ./monorepo/
-COPY monorepo/packages/commons/package.json ./monorepo/packages/commons/
-COPY monorepo/packages/config/package.json ./monorepo/packages/config/
-COPY monorepo/packages/interactify/package.json ./monorepo/packages/interactify/
-COPY monorepo/packages/locale/package.json ./monorepo/packages/locale/
-COPY monorepo/packages/vue-query/package.json ./monorepo/packages/vue-query/
-COPY monorepo/packages/vue-router/package.json ./monorepo/packages/vue-router/
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+COPY apps/registry/front-end/package.json ./apps/registry/front-end/
+COPY packages/cli/package.json ./packages/cli/
+COPY packages/prisma/package.json ./packages/prisma/
 
 # Install the complete workspace dependency graph using BuildKit's persistent pnpm store.
 RUN --mount=type=cache,id=fpm-pnpm-store,target=/pnpm/store \
-    cd /app/fpm && pnpm install --frozen-lockfile
+    pnpm install --frozen-lockfile
 
 # Copy application and shared workspace sources only after dependencies are cached.
-COPY apps/ ./fpm/apps/
-COPY packages/ ./fpm/packages/
-COPY monorepo/packages/ ./monorepo/packages/
+COPY apps/ ./apps/
+COPY packages/ ./packages/
 
 # Build the production SPA from the fpm workspace root.
-RUN cd /app/fpm && pnpm --filter @fuyeor/fpm-front-end build
+RUN pnpm --filter @fuyeor/fpm-front-end build
 
 # Serve the static SPA with a small Nginx runtime image.
 FROM nginx:alpine AS runner
 
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=builder /app/fpm/apps/registry/front-end/dist/ /usr/share/nginx/html/
+COPY --from=builder /app/apps/registry/front-end/dist/ /usr/share/nginx/html/
 
 # Keep API requests on the same origin and support client-side routing.
 RUN printf '%s\n' \
