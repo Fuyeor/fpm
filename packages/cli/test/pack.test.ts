@@ -84,4 +84,18 @@ describe('packPackage', () => {
     expect((extracted.get('package/src/index.ts') ?? Buffer.from('')).toString()).toContain('answer');
     expect(await readFile(join(directory, 'src', 'index.ts'), 'utf8')).toContain('answer');
   });
+
+  it('includes explicitly selected ignored build files', async () => {
+    const directory = await mkdtemp(join(tmpdir(), 'fpm-pack-dist-'));
+    temporaryDirectories.push(directory);
+    await mkdir(join(directory, 'dist'), { recursive: true });
+    await writeFile(join(directory, 'package.json'), JSON.stringify({ name: '@demo/dist-package', version: '1.0.0', files: ['dist'] }));
+    await writeFile(join(directory, '.gitignore'), 'dist\n');
+    await writeFile(join(directory, 'dist', 'index.js'), 'export const ready = true;\n');
+
+    const packed = await packPackage(directory);
+
+    expect(packed.files).toEqual(expect.arrayContaining(['package.json', 'dist/index.js']));
+    expect(packed.files).toHaveLength(2);
+  });
 });
