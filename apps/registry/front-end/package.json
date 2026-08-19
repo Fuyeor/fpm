@@ -11,7 +11,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@fuyeor/commons": "^0.1.0",
+    "@fuyeor/commons": "^0.1.2",
     "@fuyeor/config": "^0.1.1",
     "@fuyeor/interactify": "^0.1.1",
     "@fuyeor/locale": "^0.1.0",

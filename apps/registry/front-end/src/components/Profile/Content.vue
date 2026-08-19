@@ -134,8 +134,8 @@ const profilePageOptions = computed<TabItem[]>(() => {
   const basePath = localePath(`/@${props.username}`);
 
   const base: TabItem[] = [
-    { labelKey: 'activities', value: 'activities', path: basePath },
-    { labelKey: 'packages', value: 'packages', path: `${basePath}/packages` },
+    { labelKey: 'packages', value: 'packages', path: basePath },
+    // { labelKey: 'packages', value: 'packages', path: `${basePath}/packages` },
     {
       labelKey: 'organizations',
       value: 'organizations',
@@ -156,14 +156,14 @@ const profilePageOptions = computed<TabItem[]>(() => {
 
 const getComponentForTab = (tabValue: string): any => {
   switch (tabValue) {
-    case 'packages':
-      return UserPackages;
+    // case 'packages':
+    //   return UserPackages;
     case 'organizations':
       return UserOrganizations;
     case 'about':
       return;
     default:
-      return;
+      return UserPackages;
   }
 };
 

@@ -1,4 +1,16 @@
 {
+  "about": {
+    "ar": "حول",
+    "de": "Über uns",
+    "en": "About",
+    "es": "Acerca de",
+    "fr": "À propos",
+    "ja": "概要",
+    "ko": "소개",
+    "pt": "Sobre",
+    "ru": "О программе",
+    "zh-hans": "关于"
+  },
   "expired.at": {
     "ar": "انتهت صلاحيته في",
     "de": "Abgelaufen am",
@@ -167,6 +179,30 @@
     "ru": "Пакеты",
     "zh-hans": "软件包"
   },
+  "profile": {
+    "ar": "الملف الشخصي",
+    "de": "Profil",
+    "en": "Profile",
+    "es": "Perfil",
+    "fr": "Profil",
+    "ja": "プロフィール",
+    "ko": "프로필",
+    "pt": "Perfil",
+    "ru": "Профиль",
+    "zh-hans": "用户主页"
+  },
+  "profile.viewAbout": {
+    "ar": "ملفهم الشخصي وإحصائياتهم",
+    "de": "README und Statistiken",
+    "en": "Their README and stats",
+    "es": "Su README y estadísticas",
+    "fr": "Leur README et statistiques",
+    "ja": "README と統計情報",
+    "ko": "README 및 통계",
+    "pt": "Seu README e estatísticas",
+    "ru": "README и статистика",
+    "zh-hans": "用户简介及统计信息"
+  },
   "search.placeholder": {
     "ar": "ابحث عن الحزم或者是المستخدمين...",
     "de": "Pakete oder Benutzer suchen...",
@@ -322,6 +358,30 @@
     "pt": "Por favor, salve este token de cliente, pois ele não será exibido novamente.",
     "ru": "Пожалуйста, сохраните этот клиентский токен, он больше не будет показан.",
     "zh-hans": "请保存此客户端令牌，系统不会再次显示。"
+  },
+  "user.notFound": {
+    "ar": "المستخدم أو المؤسسة غير موجودة",
+    "de": "Benutzer oder Organisation nicht gefunden",
+    "en": "User or organization not found",
+    "es": "Usuario u organización no encontrados",
+    "fr": "Utilisateur ou organisation introuvable",
+    "ja": "ユーザーまたは組織が見つかりません",
+    "ko": "사용자 또는 조직을 찾을 수 없습니다.",
+    "pt": "Usuário ou organização não encontrados",
+    "ru": "Пользователь или организация не найдены",
+    "zh-hans": "未找到该用户或组织"
+  },
+  "user.notFound.desc": {
+    "ar": "ربما تم تغيير اسم المستخدم أو المؤسسة أو حذفها.",
+    "de": "Der Benutzer oder die Organisation wurde möglicherweise umbenannt oder gelöscht.",
+    "en": "The user or organization may have been renamed or deleted.",
+    "es": "Es posible que el usuario u organización haya cambiado de nombre o haya sido eliminado.",
+    "fr": "L'utilisateur ou l'organisation a peut-être été renommé ou supprimé.",
+    "ja": "ユーザーまたは組織の名前が変更されたか、削除された可能性があります。",
+    "ko": "사용자 또는 조직의 이름이 변경되었거나 삭제되었을 수 있습니다.",
+    "pt": "O usuário ou organização pode ter sidorenomeado ou excluído.",
+    "ru": "Возможно, пользователь или организация были переименованы или удалены.",
+    "zh-hans": "该用户或组织可能已更名或删除。"
   },
   "username.hint": {
     "ar": "من 4 إلى 20 حرفًا، ويُسمح فقط بالأحرف الإنجليزية الصغيرة أو الأرقام أو الشرطات.",

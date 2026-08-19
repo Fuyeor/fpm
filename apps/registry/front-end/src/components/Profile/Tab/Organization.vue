@@ -22,8 +22,9 @@
       <OptionItemCard
         v-for="item in organizations"
         :key="item.id"
-        :item-name="'@' + item.username"
-        :item-status="t('role.' + item.role)"
+        :icon-url="getIconUrl('email')"
+        :item-name="`@${item.username}`"
+        :item-status="t(`role.${item.role}`)"
         :created-at="item.createdAt"
         @click="organizationProfile(item.username)"
       />
@@ -35,13 +36,13 @@
 
 <script setup lang="ts">
 import CreateOrganizationModal from '../Modal/CreateOrganizationModal.vue';
+import OptionItemCard from '@/components/Option/Card/ItemCard.vue';
 
 import { ref, toRef } from 'vue';
 import { useRouter } from '@fuyeor/vue-router';
 import { useLocale } from '@fuyeor/locale';
 import { getIconUrl } from '@fuyeor/commons';
 import { StateDisplay } from '@fuyeor/interactify';
-import OptionItemCard from '@/components/Option/OptionItemCard.vue';
 import { useAuth } from '@/composables/auth/useAuth';
 import { useUserOrganizations } from '@/composables/api/useUsers';
 import type { User } from '@/types/user';

@@ -32,7 +32,7 @@
             name: 'Profile',
             params: { username: currentUser!.username, tab: 'organizations' },
           }"
-          class="nav-item"
+          class="nav-item link"
         >
           {{ t('intro.start.organization') }} <img :src="getIconUrl('back')" />
         </router-link>
@@ -123,6 +123,7 @@ html:lang(ja) {
   flex-direction: column;
 
   .search-bar-container input {
+      background: var(--surface-raised-hover);
     border-radius: 24px;
     padding: 14px;
   }

@@ -36,8 +36,8 @@ importers:
   apps/registry/front-end:
     dependencies:
       '@fuyeor/commons':
-        specifier: ^0.1.0
-        version: 0.1.0(vue@3.5.34(typescript@6.0.3))
+        specifier: ^0.1.2
+        version: 0.1.2(vue@3.5.34(typescript@6.0.3))
       '@fuyeor/config':
         specifier: ^0.1.1
         version: 0.1.1(vite@8.0.1(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@types/node@24.12.4)(jiti@2.7.0)(terser@5.48.0))(vue@3.5.34(typescript@6.0.3))
@@ -230,6 +230,11 @@ packages:
 
   '@fuyeor/commons@0.1.0':
     resolution: {integrity: sha256-0ftDuLXPoQiLotiSRC2cmVF/+cViXO11ZV2pTpbkXbM=, tarball: https://fpm.fuyeor.net/packages/@fuyeor/commons/0.1.0.tgz}
+    peerDependencies:
+      vue: '*'
+
+  '@fuyeor/commons@0.1.2':
+    resolution: {integrity: sha256-X1Ejy4MgCaO8iFkvph8SavvY2kFJtaCXdJ6OYG8ceJE=, tarball: https://fpm.fuyeor.net/packages/@fuyeor/commons/0.1.2.tgz}
     peerDependencies:
       vue: '*'
 
@@ -1790,6 +1795,12 @@ snapshots:
     dependencies:
       '@fuyeor/locale': 0.1.0(vue@3.5.34(typescript@6.0.3))
       '@fuyeor/vue-router': 0.1.0(vue@3.5.34(typescript@6.0.3))
+      vue: 3.5.34(typescript@6.0.3)
+
+  '@fuyeor/commons@0.1.2(vue@3.5.34(typescript@6.0.3))':
+    dependencies:
+      '@fuyeor/locale': 0.1.0(vue@3.5.34(typescript@6.0.3))
+      '@fuyeor/vue-router': 0.0.9(vue@3.5.34(typescript@6.0.3))
       vue: 3.5.34(typescript@6.0.3)
 
   '@fuyeor/config@0.1.1(vite@8.0.1(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@types/node@24.12.4)(jiti@2.7.0)(terser@5.48.0))(vue@3.5.34(typescript@6.0.3))':

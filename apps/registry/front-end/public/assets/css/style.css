@@ -7,13 +7,6 @@
   --text-primary: #111111;
 }
 
-a {
-  color: var(--button-business);
-}
-a:hover {
-  color: var(--button-business-hover);
-}
-
 /* 大于 1000px 电脑版 */
 @media (width >= 1000px) {
   main {
@@ -75,6 +68,12 @@ h3:after {
 
   .nav img {
     width: 1.75rem;
+  }
+}
+
+.right-sidebar {
+  .search-bar-container input {
+    padding: 16px;
   }
 }
 
