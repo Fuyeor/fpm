@@ -1,7 +1,11 @@
 // src/modules/organization/controller.rs
 use super::{dto::*, service};
 use crate::modules::auth::middleware::CurrentUser;
-use axum::{Json, extract::State, http::StatusCode};
+use axum::{
+    Json,
+    extract::{Path, State},
+    http::StatusCode,
+};
 use sea_orm::DatabaseConnection;
 
 #[utoipa::path(
@@ -41,4 +45,51 @@ pub async fn create_organization(
     service::create_scope(&db, user.id, payload.username)
         .await
         .map(Json)
+}
+
+#[utoipa::path(
+    get,
+    path = "organizations/{username}",
+    params(("username" = String, Path, description = "Organization username")),
+    responses((status = 200, body = OrganizationProfileDto)),
+    tag = "Organization"
+)]
+/// Returns public organization metadata.
+pub async fn get_organization_profile(
+    State(db): State<DatabaseConnection>,
+    Path(username): Path<String>,
+) -> Result<Json<OrganizationProfileDto>, (StatusCode, String)> {
+    service::get_public_organization(&db, &username)
+        .await
+        .map(Json)
+}
+
+#[utoipa::path(
+    get,
+    path = "organizations/{username}/members",
+    params(("username" = String, Path, description = "Organization username")),
+    responses((status = 200, body = [OrganizationMemberDto])),
+    tag = "Organization"
+)]
+/// Returns public members of an organization.
+pub async fn get_organization_members(
+    State(db): State<DatabaseConnection>,
+    Path(username): Path<String>,
+) -> Result<Json<Vec<OrganizationMemberDto>>, (StatusCode, String)> {
+    service::get_public_members(&db, &username).await.map(Json)
+}
+
+#[utoipa::path(
+    get,
+    path = "organizations/{username}/packages",
+    params(("username" = String, Path, description = "Organization username")),
+    responses((status = 200, body = [OrganizationPackageDto])),
+    tag = "Organization"
+)]
+/// Returns public package summaries of an organization.
+pub async fn get_organization_packages(
+    State(db): State<DatabaseConnection>,
+    Path(username): Path<String>,
+) -> Result<Json<Vec<OrganizationPackageDto>>, (StatusCode, String)> {
+    service::get_public_packages(&db, &username).await.map(Json)
 }

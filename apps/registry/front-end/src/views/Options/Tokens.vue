@@ -107,7 +107,7 @@ import {
   FormField,
   Modal,
 } from '@fuyeor/interactify';
-import OptionItemCard from '@/components/Option/OptionItemCard.vue';
+import OptionItemCard from '@/components/Option/Card/ItemCard.vue';
 import CopyClipboard from '@/components/Shared/CopyClipboard.vue';
 import {
   useCreateTokenMutation,

@@ -47,35 +47,27 @@ const appRoutes: Array<RouteRecord> = [
   },
   {
     // fpm.fuyeor.com/organization/@fuyeor
-    path: 'organization/@:username{/:tab(members|packages)}?',
+    path: 'organization/@:username{/:tab(members|packages|about)}?',
     name: 'Organization',
-    component: () => import('@/views/Profile.vue'),
+    component: () => import('@/views/Organization.vue'),
     props: true,
     meta: {
       public: true,
       areaKey: 'profile',
-    },
-  },
-  {
-    // fpm.fuyeor.com/organization/@fuyeor
-    path: 'organization/@:username{/:tab(members|packages)}?',
-    name: 'Organization',
-    component: () => import('@/views/Profile.vue'),
-    props: true,
-    meta: {
-      public: true,
-      areaKey: 'profile',
+      title: (route: RouteLocation) => `@${String(route.params.username)}`,
     },
   },
   {
     // fpm.fuyeor.com/package/@fuyeor/vue-router
-    path: 'package/:packageName{/:tab(versions|dependencies|dependents)}?',
+    path: 'package/:scope/:name{/:tab(versions|dependencies|dependents)}?',
     name: 'Package',
-    component: () => import('@/views/Profile.vue'),
+    component: () => import('@/views/Package.vue'),
     props: true,
     meta: {
       public: true,
       areaKey: 'package',
+      title: (route: RouteLocation) =>
+        `${String(route.params.scope)}/${String(route.params.name)}`,
     },
   },
   {

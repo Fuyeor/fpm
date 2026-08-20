@@ -60,7 +60,7 @@ const {
 const handleCardClick = (fullName: string) => {
   // fullName, e.g. "@fuyeor/std"
   router.push({
-    name: 'PackageDetail',
+    name: 'Package',
     params: {
       scope: fullName.split('/')[0], // @fuyeor
       name: fullName.split('/')[1], // std

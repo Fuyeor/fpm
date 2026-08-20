@@ -9,7 +9,16 @@
     "ko": "소개",
     "pt": "Sobre",
     "ru": "О программе",
-    "zh-hans": "关于"
+    "zh-hans": "关于",
+    "zh-hant": "關於"
+  },
+  "content.empty": {
+    "en": "No content yet.",
+    "zh-hant": "目前沒有內容。"
+  },
+  "created.at": {
+    "en": "Created at",
+    "zh-hant": "建立於"
   },
   "expired.at": {
     "ar": "انتهت صلاحيته في",
@@ -95,6 +104,16 @@
     "ru": "Минималистичный менеджер веб-пакетов",
     "zh-hans": "极简 Web 包管理器"
   },
+  "members": {
+    "en": "Members",
+    "zh-hans": "成员",
+    "zh-hant": "成員"
+  },
+  "organization.about.desc": {
+    "en": "A public overview of this organization.",
+    "zh-hans": "该组织的公开简介。",
+    "zh-hant": "此組織的公開簡介。"
+  },
   "organization.add": {
     "ar": "إنشاء مؤسسة",
     "de": "Organisation erstellen",
@@ -106,6 +125,16 @@
     "pt": "Criar uma organização",
     "ru": "Создать организацию",
     "zh-hans": "新建组织"
+  },
+  "organization.created": {
+    "en": "Created",
+    "zh-hans": "创建于",
+    "zh-hant": "建立於"
+  },
+  "organization.members.desc": {
+    "en": "People who help build and maintain this organization.",
+    "zh-hans": "参与构建和维护该组织的成员。",
+    "zh-hant": "參與建構與維護此組織的成員。"
   },
   "organization.name": {
     "ar": "اسم机构",
@@ -119,6 +148,11 @@
     "ru": "Имя пользователя организации",
     "zh-hans": "组织用户名"
   },
+  "organization.packages.desc": {
+    "en": "Packages published under this organization scope.",
+    "zh-hans": "发布在该组织 scope 下的软件包。",
+    "zh-hant": "發佈於此組織 scope 下的套件。"
+  },
   "organizations": {
     "ar": "المؤسسات",
     "de": "Organisationen",
@@ -129,7 +163,8 @@
     "ko": "조직",
     "pt": "Organizações",
     "ru": "Организации",
-    "zh-hans": "组织"
+    "zh-hans": "组织",
+    "zh-hant": "組織"
   },
   "package.dependencies": {
     "ar": "التبعيّات",
@@ -155,6 +190,36 @@
     "ru": "Зависимые пакеты",
     "zh-hans": "依赖者"
   },
+  "package.dependentsUnavailable": {
+    "en": "Dependent package data is not available yet.",
+    "zh-hans": "依赖该包的包数据暂不可用。",
+    "zh-hant": "依賴此套件的套件資料目前尚不可用。"
+  },
+  "package.install": {
+    "en": "Install",
+    "zh-hans": "安装",
+    "zh-hant": "安裝"
+  },
+  "package.latest": {
+    "en": "Latest",
+    "zh-hans": "最新版本",
+    "zh-hant": "最新版本"
+  },
+  "package.metadata": {
+    "en": "NPM-compatible metadata",
+    "zh-hans": "NPM 兼容元数据",
+    "zh-hant": "NPM 相容中繼資料"
+  },
+  "package.noDependencies": {
+    "en": "No runtime dependencies",
+    "zh-hans": "没有运行时依赖",
+    "zh-hant": "沒有執行時期依賴"
+  },
+  "package.noVersions": {
+    "en": "No versions are available.",
+    "zh-hans": "暂无可用版本。",
+    "zh-hant": "目前沒有可用版本。"
+  },
   "package.versions": {
     "ar": "الإصدارات",
     "de": "Versionen",
@@ -177,7 +242,8 @@
     "ko": "패키지",
     "pt": "Pacotes",
     "ru": "Пакеты",
-    "zh-hans": "软件包"
+    "zh-hans": "软件包",
+    "zh-hant": "套件"
   },
   "profile": {
     "ar": "الملف الشخصي",
@@ -369,7 +435,8 @@
     "ko": "사용자 또는 조직을 찾을 수 없습니다.",
     "pt": "Usuário ou organização não encontrados",
     "ru": "Пользователь или организация не найдены",
-    "zh-hans": "未找到该用户或组织"
+    "zh-hans": "未找到该用户或组织",
+    "zh-hant": "找不到使用者或組織"
   },
   "user.notFound.desc": {
     "ar": "ربما تم تغيير اسم المستخدم أو المؤسسة أو حذفها.",
@@ -381,7 +448,8 @@
     "ko": "사용자 또는 조직의 이름이 변경되었거나 삭제되었을 수 있습니다.",
     "pt": "O usuário ou organização pode ter sidorenomeado ou excluído.",
     "ru": "Возможно, пользователь или организация были переименованы или удалены.",
-    "zh-hans": "该用户或组织可能已更名或删除。"
+    "zh-hans": "该用户或组织可能已更名或删除。",
+    "zh-hant": "此使用者或組織可能已更名或刪除。"
   },
   "username.hint": {
     "ar": "من 4 إلى 20 حرفًا، ويُسمح فقط بالأحرف الإنجليزية الصغيرة أو الأرقام أو الشرطات.",

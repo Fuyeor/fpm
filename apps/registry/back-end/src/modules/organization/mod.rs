@@ -11,13 +11,19 @@ use utoipa::OpenApi;
 #[openapi(
     paths(
         controller::validate_scope,
-        controller::create_organization
+        controller::create_organization,
+        controller::get_organization_profile,
+        controller::get_organization_members,
+        controller::get_organization_packages
     ),
     components(schemas(
         dto::CheckScopeRequest,
         dto::ScopeValidationResponse,
         dto::CreateScopeRequest,
-        dto::CreateScopeResponse
+        dto::CreateScopeResponse,
+        dto::OrganizationProfileDto,
+        dto::OrganizationMemberDto,
+        dto::OrganizationPackageDto
     )),
     tags(
         (name = "Organization", description = "Scope and organization workspace management APIs")

@@ -5,6 +5,9 @@ import type {
   ScopeValidationResponse,
   CreateScopeRequest,
   CreateScopeResponse,
+  OrganizationProfile,
+  OrganizationMember,
+  OrganizationPackage,
 } from '@/types/organization';
 
 /**
@@ -19,4 +22,23 @@ export const validateScope = (body: CheckScopeRequest) => {
  */
 export const createOrganization = (body: CreateScopeRequest) => {
   return apiClient.post<CreateScopeResponse>('/organizations', body);
+};
+
+/** Fetch public organization metadata by case-insensitive username. */
+export const getOrganizationProfile = (username: string) => {
+  return apiClient.get<OrganizationProfile>(`/organizations/${encodeURIComponent(username)}`);
+};
+
+/** Fetch public organization members and their roles. */
+export const getOrganizationMembers = (username: string) => {
+  return apiClient.get<OrganizationMember[]>(
+    `/organizations/${encodeURIComponent(username)}/members`,
+  );
+};
+
+/** Fetch public package summaries belonging to an organization. */
+export const getOrganizationPackages = (username: string) => {
+  return apiClient.get<OrganizationPackage[]>(
+    `/organizations/${encodeURIComponent(username)}/packages`,
+  );
 };
