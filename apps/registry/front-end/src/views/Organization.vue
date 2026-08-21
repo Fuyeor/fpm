@@ -1,6 +1,7 @@
 <!-- @/views/Organization.vue -->
 <template>
   <HeaderBar :title="t('organizations')" />
+
   <StateDisplay
     v-if="!isRetrieved"
     :type="status"
@@ -9,34 +10,39 @@
     :error-message="error?.message"
     @action="router.push({ name: 'Home' })"
   />
-  <main v-else class="organization-layout">
+
+  <div v-else class="content-layout">
     <OrganizationHeader :organization="organization" />
     <OrganizationContent
       :organization="organization"
       :username="username"
       :tab="tab"
     />
-  </main>
+  </div>
 </template>
 
 <script setup lang="ts">
+import OrganizationHeader from '@/components/Organization/Header.vue';
+import OrganizationContent from '@/components/Organization/Content.vue';
+
 import { toRef, onUnmounted, watch } from 'vue';
 import { useRouter } from '@fuyeor/vue-router';
 import { useLocale } from '@fuyeor/locale';
 import { useTitleStore } from '@fuyeor/commons';
 import { HeaderBar, StateDisplay } from '@fuyeor/interactify';
-import OrganizationHeader from '@/components/Organization/Header.vue';
-import OrganizationContent from '@/components/Organization/Content.vue';
 import { useOrganizationProfile } from '@/composables/api/useOrganizationsPublic';
 
 const props = defineProps<{
   username: string;
   tab?: string;
 }>();
+
+const { t } = useLocale();
+
 const router = useRouter();
 const titleStore = useTitleStore();
-const { t } = useLocale();
 const usernameRef = toRef(props, 'username');
+
 const {
   data: organization,
   status,
@@ -58,17 +64,3 @@ onUnmounted(() => {
   titleStore.clearDynamicSegment();
 });
 </script>
-
-<style scoped>
-.organization-layout {
-  display: grid;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 2rem 2rem 0;
-}
-@media (width <= 640px) {
-  .organization-layout {
-    padding: 1rem 1rem 0;
-  }
-}
-</style>

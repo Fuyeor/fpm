@@ -12,14 +12,6 @@
     "zh-hans": "关于",
     "zh-hant": "關於"
   },
-  "content.empty": {
-    "en": "No content yet.",
-    "zh-hant": "目前沒有內容。"
-  },
-  "created.at": {
-    "en": "Created at",
-    "zh-hant": "建立於"
-  },
   "expired.at": {
     "ar": "انتهت صلاحيته في",
     "de": "Abgelaufen am",
@@ -104,16 +96,6 @@
     "ru": "Минималистичный менеджер веб-пакетов",
     "zh-hans": "极简 Web 包管理器"
   },
-  "members": {
-    "en": "Members",
-    "zh-hans": "成员",
-    "zh-hant": "成員"
-  },
-  "organization.about.desc": {
-    "en": "A public overview of this organization.",
-    "zh-hans": "该组织的公开简介。",
-    "zh-hant": "此組織的公開簡介。"
-  },
   "organization.add": {
     "ar": "إنشاء مؤسسة",
     "de": "Organisation erstellen",
@@ -126,15 +108,17 @@
     "ru": "Создать организацию",
     "zh-hans": "新建组织"
   },
-  "organization.created": {
-    "en": "Created",
-    "zh-hans": "创建于",
-    "zh-hant": "建立於"
-  },
-  "organization.members.desc": {
-    "en": "People who help build and maintain this organization.",
-    "zh-hans": "参与构建和维护该组织的成员。",
-    "zh-hant": "參與建構與維護此組織的成員。"
+  "organization.members": {
+    "ar": "الأعضاء",
+    "de": "Mitglieder",
+    "en": "Members",
+    "es": "Miembros",
+    "fr": "Membres",
+    "ja": "メンバー",
+    "ko": "멤버",
+    "pt": "Membros",
+    "ru": "Участники",
+    "zh-hans": "成员"
   },
   "organization.name": {
     "ar": "اسم机构",
@@ -147,11 +131,6 @@
     "pt": "Nome de usuário da organização",
     "ru": "Имя пользователя организации",
     "zh-hans": "组织用户名"
-  },
-  "organization.packages.desc": {
-    "en": "Packages published under this organization scope.",
-    "zh-hans": "发布在该组织 scope 下的软件包。",
-    "zh-hant": "發佈於此組織 scope 下的套件。"
   },
   "organizations": {
     "ar": "المؤسسات",
@@ -188,37 +167,19 @@
     "ko": "피의존성",
     "pt": "Dependentes",
     "ru": "Зависимые пакеты",
-    "zh-hans": "依赖者"
-  },
-  "package.dependentsUnavailable": {
-    "en": "Dependent package data is not available yet.",
-    "zh-hans": "依赖该包的包数据暂不可用。",
-    "zh-hant": "依賴此套件的套件資料目前尚不可用。"
-  },
-  "package.install": {
-    "en": "Install",
-    "zh-hans": "安装",
-    "zh-hant": "安裝"
+    "zh-hans": "依赖方"
   },
   "package.latest": {
+    "ar": "الأحدث",
+    "de": "Neueste",
     "en": "Latest",
-    "zh-hans": "最新版本",
-    "zh-hant": "最新版本"
-  },
-  "package.metadata": {
-    "en": "NPM-compatible metadata",
-    "zh-hans": "NPM 兼容元数据",
-    "zh-hant": "NPM 相容中繼資料"
-  },
-  "package.noDependencies": {
-    "en": "No runtime dependencies",
-    "zh-hans": "没有运行时依赖",
-    "zh-hant": "沒有執行時期依賴"
-  },
-  "package.noVersions": {
-    "en": "No versions are available.",
-    "zh-hans": "暂无可用版本。",
-    "zh-hant": "目前沒有可用版本。"
+    "es": "Último",
+    "fr": "Dernier",
+    "ja": "最新",
+    "ko": "최신",
+    "pt": "Mais recente",
+    "ru": "Последний",
+    "zh-hans": "最新版本"
   },
   "package.versions": {
     "ar": "الإصدارات",
@@ -242,8 +203,7 @@
     "ko": "패키지",
     "pt": "Pacotes",
     "ru": "Пакеты",
-    "zh-hans": "软件包",
-    "zh-hant": "套件"
+    "zh-hans": "代码库"
   },
   "profile": {
     "ar": "الملف الشخصي",
