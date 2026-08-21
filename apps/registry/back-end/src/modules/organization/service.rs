@@ -1,12 +1,15 @@
 // src/modules/organization/service.rs
 use crate::{
-    entities::{organization, organization_member, prelude::Organization},
+    entities::{
+        organization, organization_member, package,
+        prelude::{Organization, OrganizationMember, Package, User},
+    },
     modules::organization::dto::*,
 };
 use axum::http::StatusCode;
 use sea_orm::{
     ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, PaginatorTrait, QueryFilter,
-    Set, TransactionTrait,
+    QueryOrder, Set, TransactionTrait,
 };
 use uuid::Uuid;
 
@@ -158,4 +161,93 @@ pub async fn create_scope(
         id: org_id,
         username: lowercased,
     })
+}
+
+/// Fetches the public organization profile by case-insensitive username.
+pub async fn get_public_organization(
+    db: &DatabaseConnection,
+    username: &str,
+) -> Result<OrganizationProfileDto, (StatusCode, String)> {
+    let organization = Organization::find()
+        .filter(organization::Column::Username.eq(username))
+        .one(db)
+        .await
+        .map_err(|error| (StatusCode::INTERNAL_SERVER_ERROR, error.to_string()))?
+        .ok_or((StatusCode::NOT_FOUND, "Organization not found.".to_string()))?;
+
+    Ok(OrganizationProfileDto {
+        id: organization.id,
+        username: organization.username,
+        description: organization.description,
+        created_at: organization.created_at,
+    })
+}
+
+/// Fetches public organization members with their role and join timestamp.
+pub async fn get_public_members(
+    db: &DatabaseConnection,
+    username: &str,
+) -> Result<Vec<OrganizationMemberDto>, (StatusCode, String)> {
+    let organization = Organization::find()
+        .filter(organization::Column::Username.eq(username))
+        .one(db)
+        .await
+        .map_err(|error| (StatusCode::INTERNAL_SERVER_ERROR, error.to_string()))?
+        .ok_or((StatusCode::NOT_FOUND, "Organization not found.".to_string()))?;
+
+    let rows = OrganizationMember::find()
+        .filter(organization_member::Column::OrganizationId.eq(organization.id))
+        .order_by_asc(organization_member::Column::CreatedAt)
+        .find_also_related(User)
+        .all(db)
+        .await
+        .map_err(|error| (StatusCode::INTERNAL_SERVER_ERROR, error.to_string()))?;
+
+    rows.into_iter()
+        .map(|(member, user)| {
+            let user = user.ok_or((
+                StatusCode::INTERNAL_SERVER_ERROR,
+                "Organization member profile is missing.".to_string(),
+            ))?;
+            Ok(OrganizationMemberDto {
+                id: user.id,
+                username: user.username,
+                nickname: user.nickname,
+                avatar: user.avatar,
+                role: member.role,
+                created_at: member.created_at,
+            })
+        })
+        .collect()
+}
+
+/// Fetches public package summaries belonging to an organization.
+pub async fn get_public_packages(
+    db: &DatabaseConnection,
+    username: &str,
+) -> Result<Vec<OrganizationPackageDto>, (StatusCode, String)> {
+    let organization = Organization::find()
+        .filter(organization::Column::Username.eq(username))
+        .one(db)
+        .await
+        .map_err(|error| (StatusCode::INTERNAL_SERVER_ERROR, error.to_string()))?
+        .ok_or((StatusCode::NOT_FOUND, "Organization not found.".to_string()))?;
+
+    let packages = Package::find()
+        .filter(package::Column::OrganizationId.eq(organization.id))
+        .order_by_desc(package::Column::CreatedAt)
+        .all(db)
+        .await
+        .map_err(|error| (StatusCode::INTERNAL_SERVER_ERROR, error.to_string()))?;
+
+    Ok(packages
+        .into_iter()
+        .map(|package| OrganizationPackageDto {
+            id: package.id,
+            name: package.name,
+            full_name: package.full_name,
+            description: package.description,
+            created_at: package.created_at,
+        })
+        .collect())
 }

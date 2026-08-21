@@ -35,3 +35,30 @@ export interface CreateScopeResponse {
   /** Confirmed scope username */
   username: string;
 }
+
+/** Public organization profile returned by the registry API. */
+export interface OrganizationProfile {
+  id: string;
+  username: string;
+  description?: string;
+  createdAt: string;
+}
+
+/** Public organization member returned by the registry API. */
+export interface OrganizationMember {
+  id: string;
+  username: string;
+  nickname: string;
+  avatar?: string;
+  role: string;
+  createdAt: string;
+}
+
+/** Public package summary belonging to an organization. */
+export interface OrganizationPackage {
+  id: string;
+  name: string;
+  fullName: string;
+  description?: string;
+  createdAt: string;
+}

@@ -1,4 +1,5 @@
 // src/main.rs
+mod api;
 mod config;
 mod entities;
 mod health;
@@ -12,6 +13,7 @@ use std::net::SocketAddr;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
+use crate::api::package as public_package;
 use crate::modules::auth::{AuthApi, controller as auth};
 use crate::modules::organization::{OrganizationApi, controller as organization};
 use crate::modules::package::{PackageApi, controller as package};
@@ -107,12 +109,24 @@ async fn main() {
             post(organization::validate_scope),
         )
         .route("/organizations", post(organization::create_organization))
+        .route(
+            "/organizations/:username",
+            get(organization::get_organization_profile),
+        )
+        .route(
+            "/organizations/:username/members",
+            get(organization::get_organization_members),
+        )
+        .route(
+            "/organizations/:username/packages",
+            get(organization::get_organization_packages),
+        )
         // Package publishing routes
         .route("/packages/acquire", post(package::acquire_upload))
         .route("/packages/commit", post(package::commit_upload))
         // Public npm-compatible metadata routes
-        .route("/:package_name", get(package::get_metadata))
-        .route("/:scope/:name", get(package::get_metadata_parts))
+        .route("/:package_name", get(public_package::get_metadata))
+        .route("/:scope/:name", get(public_package::get_metadata_parts))
         // Process liveness probe; nginx exposes this as /v1/health
         .route("/health", get(health::health))
         .merge(SwaggerUi::new("/docs").url("/docs/openapi.json", openapi))
