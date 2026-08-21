@@ -5,7 +5,7 @@ use crate::modules::auth::middleware::CurrentUser;
 use aws_sdk_s3::Client as S3Client;
 use axum::{
     Json,
-    extract::{Path, State},
+    extract::{Path, Query, State},
     http::StatusCode,
 };
 use sea_orm::DatabaseConnection;
@@ -91,4 +91,19 @@ pub async fn get_metadata_parts(
     let package_name = service::decode_package_name(&package_name)
         .map_err(|error| (StatusCode::BAD_REQUEST, error))?;
     service::get_metadata(&db, &package_name).await.map(Json)
+}
+
+#[utoipa::path(
+    get,
+    path = "/search",
+    params(PackageSearchQuery),
+    responses((status = 200, body = PackageSearchResponse)),
+    tag = "Package"
+)]
+/// Searches public packages using npm-compatible query aliases and response fields.
+pub async fn search(
+    State(db): State<DatabaseConnection>,
+    Query(query): Query<PackageSearchQuery>,
+) -> Result<Json<PackageSearchResponse>, (StatusCode, String)> {
+    service::search_packages(&db, query).await.map(Json)
 }
