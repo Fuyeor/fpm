@@ -13,7 +13,8 @@ use std::net::SocketAddr;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
-use crate::api::{package as public_package, search as public_search};
+use crate::api::sitemap::SitemapApi;
+use crate::api::{package as public_package, search as public_search, sitemap as public_sitemap};
 use crate::modules::auth::{AuthApi, controller as auth};
 use crate::modules::organization::{OrganizationApi, controller as organization};
 use crate::modules::package::{PackageApi, controller as package};
@@ -86,6 +87,7 @@ async fn main() {
     openapi.merge(PackageApi::openapi());
     openapi.merge(UserApi::openapi());
     openapi.merge(OrganizationApi::openapi());
+    openapi.merge(SitemapApi::openapi());
 
     // Build Router
     let app = Router::new()
@@ -124,6 +126,17 @@ async fn main() {
         // Package publishing routes
         .route("/packages/acquire", post(package::acquire_upload))
         .route("/packages/commit", post(package::commit_upload))
+        // Public sitemap XML routes
+        .route("/sitemaps/index.xml", get(public_sitemap::get_index))
+        .route("/sitemaps/en/users.xml", get(public_sitemap::get_users))
+        .route(
+            "/sitemaps/en/organizations.xml",
+            get(public_sitemap::get_organizations),
+        )
+        .route(
+            "/sitemaps/en/packages.xml",
+            get(public_sitemap::get_packages),
+        )
         // Public package discovery and npm-compatible metadata routes
         .route("/search", get(public_search::search))
         .route("/:package_name", get(public_package::get_metadata))
