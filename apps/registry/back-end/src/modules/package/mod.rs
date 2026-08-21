@@ -11,12 +11,20 @@ use utoipa::OpenApi;
         controller::acquire_upload,
         controller::commit_upload,
         controller::get_metadata,
-        controller::get_metadata_parts
+        controller::get_metadata_parts,
+        controller::search
     ),
     components(schemas(
         dto::AcquireUploadRequest,
         dto::AcquireUploadResponse,
-        dto::CommitUploadRequest
+        dto::CommitUploadRequest,
+        dto::PackageSearchQuery,
+        dto::PackageSearchResponse,
+        dto::PackageSearchObject,
+        dto::PackageSearchPackage,
+        dto::PackageSearchLinks,
+        dto::PackageSearchScore,
+        dto::PackageSearchScoreDetail
     ))
 )]
 pub struct PackageApi;

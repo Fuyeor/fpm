@@ -1,5 +1,9 @@
 // src/modules/package/service.rs
-use super::dto::{AcquireUploadRequest, AcquireUploadResponse, CommitUploadRequest};
+use super::dto::{
+    AcquireUploadRequest, AcquireUploadResponse, CommitUploadRequest, PackageSearchLinks,
+    PackageSearchObject, PackageSearchPackage, PackageSearchQuery, PackageSearchResponse,
+    PackageSearchScore, PackageSearchScoreDetail,
+};
 use crate::{
     config::AppConfig,
     entities::{organization, organization_member, package, package_version, prelude::*},
@@ -11,11 +15,15 @@ use base64::{Engine as _, engine::general_purpose::STANDARD as BASE64_STANDARD};
 use jsonwebtoken::{DecodingKey, EncodingKey, Header, Validation, decode, encode};
 use percent_encoding::{AsciiSet, CONTROLS, percent_decode_str, utf8_percent_encode};
 use sea_orm::{
-    ActiveModelTrait, ActiveValue::Set, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter,
+    ActiveModelTrait, ActiveValue::Set, ColumnTrait, Condition, DatabaseConnection, EntityTrait,
+    PaginatorTrait, QueryFilter, QueryOrder, QuerySelect,
 };
 use semver::Version;
 use serde_json::{Map, Value, json};
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use std::{
+    collections::HashMap,
+    time::{Duration, SystemTime, UNIX_EPOCH},
+};
 use uuid::Uuid;
 
 const UPLOAD_SESSION_EXP_SECONDS: u64 = 900;
@@ -399,7 +407,10 @@ fn abbreviated_version(package_name: &str, version: &package_version::Model) -> 
 
 #[cfg(test)]
 mod tests {
-    use super::{decode_package_name, object_key, validate_package_name};
+    use super::{
+        PackageSearchQuery, decode_package_name, object_key, package_search_score,
+        validate_package_name,
+    };
 
     #[test]
     fn accepts_scoped_package_names() {
@@ -431,4 +442,155 @@ mod tests {
             "packages/@fuyeor/commons/1.0.0.tgz"
         );
     }
+
+    #[test]
+    fn normalizes_search_aliases_and_bounds_limit() {
+        let query = PackageSearchQuery {
+            q: None,
+            text: Some(" vue ".to_string()),
+            limit: Some(100),
+            size: None,
+            offset: None,
+            from: Some(4),
+        };
+        assert_eq!(query.normalized(), ("vue".to_string(), 50, 4));
+    }
+
+    #[test]
+    fn ranks_package_name_before_description_match() {
+        assert_eq!(
+            package_search_score("@fuyeor/vue", None, "@fuyeor/vue"),
+            1.0
+        );
+        assert_eq!(package_search_score("@fuyeor/vue", None, "vue"), 0.8);
+        assert_eq!(
+            package_search_score("@fuyeor/tool", Some("Vue utilities"), "vue"),
+            0.35
+        );
+    }
+}
+
+/// Searches public packages by name or description using bounded offset pagination.
+pub async fn search_packages(
+    db: &DatabaseConnection,
+    query: PackageSearchQuery,
+) -> Result<PackageSearchResponse, (StatusCode, String)> {
+    let (term, limit, offset) = query.normalized();
+    let condition = Condition::any()
+        .add(package::Column::FullName.contains(&term))
+        .add(package::Column::Name.contains(&term))
+        .add(package::Column::Description.contains(&term));
+
+    let selection = Package::find().filter(condition);
+    let total = selection
+        .clone()
+        .count(db)
+        .await
+        .map_err(|error| (StatusCode::INTERNAL_SERVER_ERROR, error.to_string()))?;
+    let packages = selection
+        .order_by_desc(package::Column::CreatedAt)
+        .offset(offset)
+        .limit(limit)
+        .all(db)
+        .await
+        .map_err(|error| (StatusCode::INTERNAL_SERVER_ERROR, error.to_string()))?;
+    let package_ids = packages
+        .iter()
+        .map(|package| package.id)
+        .collect::<Vec<_>>();
+    let versions = PackageVersion::find()
+        .filter(package_version::Column::PackageId.is_in(package_ids))
+        .all(db)
+        .await
+        .map_err(|error| (StatusCode::INTERNAL_SERVER_ERROR, error.to_string()))?;
+    let mut versions_by_package: HashMap<Uuid, Vec<package_version::Model>> = HashMap::new();
+    for version in versions {
+        versions_by_package
+            .entry(version.package_id)
+            .or_default()
+            .push(version);
+    }
+
+    let objects = packages
+        .into_iter()
+        .map(|package| {
+            let versions = versions_by_package.remove(&package.id).unwrap_or_default();
+            let latest = latest_published_version(&versions);
+            let version = latest
+                .map(|version| version.version.clone())
+                .unwrap_or_else(|| "0.0.0".to_string());
+            let date = latest
+                .map(|version| version.created_at.to_rfc3339())
+                .unwrap_or_else(|| package.created_at.to_rfc3339());
+            let name = package.full_name.clone();
+            let search_score = package_search_score(&name, package.description.as_deref(), &term);
+
+            PackageSearchObject {
+                package: PackageSearchPackage {
+                    name: name.clone(),
+                    version,
+                    description: package.description,
+                    date,
+                    links: PackageSearchLinks {
+                        npm: format!("https://fpm.fuyeor.com/package/{name}"),
+                    },
+                },
+                score: PackageSearchScore {
+                    final_score: search_score,
+                    detail: PackageSearchScoreDetail {
+                        quality: 1.0,
+                        popularity: 0.0,
+                        maintenance: 1.0,
+                    },
+                },
+                search_score,
+            }
+        })
+        .collect();
+
+    Ok(PackageSearchResponse {
+        objects,
+        total,
+        time: chrono::Utc::now().to_rfc3339(),
+    })
+}
+
+/// Selects the highest valid SemVer and falls back to the newest stored version.
+fn latest_published_version(
+    versions: &[package_version::Model],
+) -> Option<&package_version::Model> {
+    let mut latest: Option<(&package_version::Model, Version)> = None;
+    for version in versions {
+        if let Ok(parsed) = Version::parse(&version.version)
+            && latest.as_ref().is_none_or(|(_, current)| parsed > *current)
+        {
+            latest = Some((version, parsed));
+        }
+    }
+    latest
+        .map(|(version, _)| version)
+        .or_else(|| versions.iter().max_by_key(|version| version.created_at))
+}
+
+/// Produces a deterministic score while keeping npm's quality/popularity/maintenance shape.
+fn package_search_score(name: &str, description: Option<&str>, term: &str) -> f64 {
+    if term.is_empty() {
+        return 0.5;
+    }
+    let name = name.to_lowercase();
+    let term = term.to_lowercase();
+    let name_score: f64 = if name == term {
+        1.0
+    } else if name.starts_with(&term) {
+        0.9
+    } else if name.contains(&term) {
+        0.8
+    } else {
+        0.0
+    };
+    let description_score: f64 = description
+        .map(str::to_lowercase)
+        .filter(|description| description.contains(&term))
+        .map_or(0.0, |_| 0.35);
+    (name_score + description_score).min(1.0)
 }

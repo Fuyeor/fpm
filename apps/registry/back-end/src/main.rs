@@ -13,7 +13,7 @@ use std::net::SocketAddr;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
-use crate::api::package as public_package;
+use crate::api::{package as public_package, search as public_search};
 use crate::modules::auth::{AuthApi, controller as auth};
 use crate::modules::organization::{OrganizationApi, controller as organization};
 use crate::modules::package::{PackageApi, controller as package};
@@ -124,7 +124,8 @@ async fn main() {
         // Package publishing routes
         .route("/packages/acquire", post(package::acquire_upload))
         .route("/packages/commit", post(package::commit_upload))
-        // Public npm-compatible metadata routes
+        // Public package discovery and npm-compatible metadata routes
+        .route("/search", get(public_search::search))
         .route("/:package_name", get(public_package::get_metadata))
         .route("/:scope/:name", get(public_package::get_metadata_parts))
         // Process liveness probe; nginx exposes this as /v1/health
