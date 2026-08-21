@@ -128,14 +128,9 @@ async fn main() {
         .route("/packages/commit", post(package::commit_upload))
         // Public sitemap XML routes
         .route("/sitemaps/index.xml", get(public_sitemap::get_index))
-        .route("/sitemaps/en/users.xml", get(public_sitemap::get_users))
         .route(
-            "/sitemaps/en/organizations.xml",
-            get(public_sitemap::get_organizations),
-        )
-        .route(
-            "/sitemaps/en/packages.xml",
-            get(public_sitemap::get_packages),
+            "/sitemaps/:locale/:module",
+            get(public_sitemap::get_localized_sitemap),
         )
         // Public package discovery and npm-compatible metadata routes
         .route("/search", get(public_search::search))
